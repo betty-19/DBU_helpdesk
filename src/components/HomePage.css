@@ -1,0 +1,25 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 200vh;
+  }
+  
+  .main-content {
+    flex: 1;
+  }
+  
+  .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+  }
+  .footer-links li {
+    display: inline;
+    margin-right: 10px;
+  }
+  img {
+width: 500px;
+height: 500px;
+  }
