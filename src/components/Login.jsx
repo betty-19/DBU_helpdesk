@@ -78,7 +78,7 @@ const Login = () => {
 
           <button onClick={handleLogin} className="btn btn-primary">Login</button>
           <div className="reset-password">
-            <Link to="/" onClick={handleResetPassword} className="btn btn-link">Reset Password</Link>
+            <Link to="/admin" onClick={handleResetPassword} className="btn btn-link">Reset Password</Link>
           </div>
         </div>
       </div>

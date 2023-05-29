@@ -4,6 +4,7 @@ import HomePage from './components/HomePage';
 import Login from './components/Login';
 import SignUp from "./components/SignUp";
 import User from "./components/user";
+import Admin from './components/admin';
 
 const App = () => {
   return (
@@ -13,7 +14,8 @@ const App = () => {
           <Route path="/" element={ <HomePage />} />
           <Route path="/login" element={ <Login />} />  
           <Route path="/signup" element={ <SignUp />} />  
-          <Route path="/user" element={<User/>} />     
+          <Route path="/user" element={<User/>} />
+          <Route path="/admin" element={<Admin/>}  />   
         </Routes>
       </div>
     </Router>

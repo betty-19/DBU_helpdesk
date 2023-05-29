@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link , useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
@@ -10,6 +10,19 @@ const User = () => {
   const [bothError, setBothError] = useState('');
   const [bothValid , setBothValid] = useState('');
   const [category, setCategory] = useState(''); 
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then((response) => response.json())
+      .then((data) => {
+        setCategories(data.categories);
+      })
+      .catch((error) => {
+        console.error('Error fetchin g categories: ', error);
+      });
+  }, []);
+  
   
   const handleFormatting = (command, value) => {
     // Check if there is selected text
@@ -124,17 +137,15 @@ const User = () => {
             {titleError && <div className="error">{titleError}</div>}
           </div>
           <div className="mb-3">
-            <label htmlFor="category" className="form-label">Category</label>
-            <select className="form-select" id="category" value={category}
-              onChange={(e) => setCategory(e.target.value)}>
-              <option>Select a category</option>
-              <option>Category 1</option>
-              <option>Category 2</option>
-              <option>Category 3</option>
-              {/* Add options dynamically from department table */}
-            </select>
-            {categoryError && <div className="error">{categoryError}</div>}
-          </div>
+      <label htmlFor="category" className="form-label">Category</label>
+      <select className="form-select" id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+        <option>Select a category</option>
+        {categories.map((category) => (
+          <option key={category}>{category}</option>
+        ))}
+      </select>
+      {categoryError && <div className="error">{categoryError}</div>}
+    </div>
           <div className="mb-3">
             <label htmlFor="message" className="form-label">Message</label>
             <div
