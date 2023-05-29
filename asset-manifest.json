@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/DBU_helpdesk/static/css/main.021439d2.css",
+    "main.js": "/DBU_helpdesk/static/js/main.c2f40c4b.js",
+    "static/js/787.7d42724d.chunk.js": "/DBU_helpdesk/static/js/787.7d42724d.chunk.js",
+    "static/media/dbuHome.jpg": "/DBU_helpdesk/static/media/dbuHome.b5be65c77411b9884a4f.jpg",
+    "index.html": "/DBU_helpdesk/index.html",
+    "main.021439d2.css.map": "/DBU_helpdesk/static/css/main.021439d2.css.map",
+    "main.c2f40c4b.js.map": "/DBU_helpdesk/static/js/main.c2f40c4b.js.map",
+    "787.7d42724d.chunk.js.map": "/DBU_helpdesk/static/js/787.7d42724d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.021439d2.css",
+    "static/js/main.c2f40c4b.js"
+  ]
+}
