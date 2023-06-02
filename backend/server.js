@@ -50,6 +50,26 @@ app.post('/signup', (req, res) => {
   });
 });
 
+
+app.get('/api/categories', (req, res) => {
+  const query = 'SELECT category FROM department';
+
+  // Execute the query
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching categories: ', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      const categories = results.map((row) => row.category);
+      res.json({ categories });
+    }
+  });
+});
+
+
+
+
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

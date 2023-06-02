@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"nodemon server.js\" \"nodemon loginServer.js\" \"nodemon ticket.js\" \" nodemon category.js\""
+    "start": "concurrently \"nodemon server.js\" \"nodemon loginServer.js\" \"nodemon ticket.js\" \" nodemon category.js\" \" nodemon newUser.js\" "
   },
   "keywords": [],
   "author": "",
