@@ -10,14 +10,22 @@ const Signup = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [favoriteNumber, setFavoriteNumber] = useState('');
   const [birthDate, setBirthDate] = useState('');
+  const [employeeId, setEmployeeId] = useState(''); 
   const [favoriteColor, setFavoriteColor] = useState('');
-  const navigate = useNavigate();
+  const [temporaryUsername, setTemporaryUsername] = useState('');
+const [temporaryPassword, setTemporaryPassword] = useState('');
+
+  //const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
 
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
     setErrors({ ...errors, firstName: '' });
+  };
+  const handleEmployeeIdChange = (e) => {
+    setEmployeeId(e.target.value);
+    setErrors({ ...errors, employeeId: '' });
   };
 
   const handleLastNameChange = (e) => {
@@ -53,6 +61,23 @@ const Signup = () => {
   const handleSignup = () => {
     // Perform validation
     let validationErrors = {};
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        general: 'Please enter all fields',
+      }));
+    } else {
+      // Clear any previous general error message
+      setErrors({});
+  
+      // Perform signup logic with form data
+      console.log('Signup clicked');
+    }
+    const username = lastName;
+      const password = phoneNumber;
+      setTemporaryUsername(username);
+      setTemporaryPassword(password);
   
     if (!firstName) {
       validationErrors.firstName = 'Please enter your First Name';
@@ -81,34 +106,39 @@ const Signup = () => {
     if (!favoriteColor) {
       validationErrors.favoriteColor = 'Please enter your Favorite Color';
     }
-  
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        general: 'Please enter all fields',
-      }));
-    } else {
-      // Clear any previous general error message
-      setErrors({});
-  
-      // Perform signup logic with form data
-      console.log('Signup clicked');
-    }
+    
+  if (!employeeId) {
+    validationErrors.employeeId = 'Please enter your Employee ID';
+  }
+    axios
+    .post('http://localhost:5005/pend', {
+      lastName,
+      phoneNumber
+    })
+    .then((response) => {
+      console.log('Signup successful:', response.data);
+      // Handle successful signup
+    })
+    .catch((error) => {
+      console.error('Error during signup:', error.response.data);
+      // Handle error during signup
+    });
+   
     // if (validationErrors.birthDate==="" && validationErrors.favoriteColor && validationErrors.favoriteNumber && validationErrors.firstName && validationErrors.lastName && validationErrors.phoneNumber && validationErrors.officeBlock){
       axios
-      .post('http://localhost:5001/signup', {
+      .post('http://localhost:5005/signup', {
         firstName,
         lastName,
         officeBlock,
         phoneNumber,
         favoriteNumber,
         birthDate,
-        favoriteColor
+        favoriteColor,
+        employeeId
       })
       .then((response) => {
         console.log('Signup successful:', response.data);
-        navigate('/');
+        //navigate('/');
         // Handle successful signup, e.g., redirect to a success page
       })
       .catch((error) => {
@@ -157,6 +187,16 @@ const Signup = () => {
             />
             {errors.officeBlock && <p className="error">{errors.officeBlock}</p>}
           </div>
+          <div className="form-group">
+  <label htmlFor="employeeId">Employee ID</label>
+  <input
+    type="text"
+    id="employeeId"
+    value={employeeId}
+    onChange={handleEmployeeIdChange}
+  />
+  {errors.employeeId && <p className="error">{errors.employeeId}</p>}
+</div>
 
           <div className="form-group">
             <label htmlFor="phoneNumber">Phone Number</label>
@@ -201,6 +241,13 @@ const Signup = () => {
             />
             {errors.favoriteColor && <p className="error">{errors.favoriteColor}</p>}
           </div>
+           {/* Temporary username and password */}
+           {temporaryUsername && (
+            <div>
+              <p>Temporary Username: {temporaryUsername}</p>
+              <p>Temporary Password: {temporaryPassword}</p>
+            </div>
+          )}
 
           <button onClick={handleSignup}>Signup</button>
           {errors.general && <p className="error">{errors.general}</p>}

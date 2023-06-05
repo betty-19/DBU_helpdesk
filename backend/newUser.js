@@ -66,6 +66,34 @@ app.get('/api/employee', (req, res) => {
   });
 });
 //end of employee
+//for display table value
+app.get('/api/employee2/:id', (req, res) => {
+  const empId = req.params.id;
+  const query = 'SELECT * FROM employee WHERE empId = ?';
+
+  // Execute the query with the employee ID parameter
+  connection.query(query, [empId], (error, results) => {
+    if (error) {
+      console.error('Error fetching employee information: ', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (results.length === 0) {
+        res.status(404).json({ error: 'Employee not found' });
+      } else {
+        const user = results.map((row) => ({
+          firstName: row.firstName,
+          lastName: row.lastName,
+          officeBlock: row.officeBlock,
+          department: row.Department,
+          empId: row.empId,
+        }));
+        res.json({ user });
+      }
+    }
+  });
+});
+
+//end of table value
 app.get('/api/register', (req, res) => {
   // Query the database to get the required fields
   const query = 'SELECT firstName, lastName, officeBlock, empId FROM register WHERE new = "yes"';

@@ -48,10 +48,20 @@ const NewUsers = () => {
     setSelectedId(user.empId);
   };
 
-  const handleAccept = (user) => {
-    // Handle the action when the "Accept" button is clicked for a user
-    console.log('Accept user:', user);
+  const handleAccept = async (user) => {
+    try {
+      // Update the status in the register table
+      await axios.put(`http://localhost:3003/api/update/${user.id}`, {
+        status: 'Accept',
+      });
+      // Handle any other necessary actions after accepting the user
+      console.log('Accept user:', user);
+    } catch (error) {
+      console.error('Error accepting user:', error);
+    }
   };
+  
+  
 
   const handleReject = (user) => {
     // Handle the action when the "Reject" button is clicked for a user
@@ -69,15 +79,20 @@ const NewUsers = () => {
     }
   };
 
-  const onSearch = (searchTerm) => {
-    setValue(searchTerm);
-    // Perform the actual search using an API or search algorithm
-    const results = users.filter((user) => {
-      const empId = user.empId.toString().toLowerCase();
-      return empId.includes(searchTerm.toLowerCase());
-    });
-    setSearchResults(results);
+  const onSearch = async (searchTerm) => {
+    //setValue(searchTerm);
+    try {
+      const response = await axios.get(`http://localhost:3003/api/employee2/${searchTerm}`);
+      setSearchResults(response.data.user);
+    } catch (error) {
+      setSearchResults([]);
+      console.error('Error fetching employee data:', error);
+    }
   };
+  const ondrop = async(searchTerm) => {
+    setValue(searchTerm);
+  }
+  
 
   return (
     <div>
@@ -98,28 +113,69 @@ const NewUsers = () => {
               <strong>Employee ID:</strong> {selectedId}
             </p>
             <div className="search-container">
-  <div className="search-inner">
-    <input type="text" value={value} onChange={onChange} />
-    <button className="btn btn-primary" onClick={() => onSearch(value)}>Search</button>
-  </div>
-  <div className="dropdown">
-  {empIdResults.length > 0 ? (
-    <div className="dropdown-list">
-      {empIdResults.map((empId) => (
-        <div
-          onClick={() => onSearch(empId)}
-          className="dropdown-row"
-          key={empId}
-        >
-          {empId}
-        </div>
-      ))}
-    </div>
-  ) : (
-    value.length > 0 && <div className="dropdown-row">No results found</div>
-  )}
+              <div className="search-inner">
+                <input type="text" value={value} onChange={onChange} />
+                <button className="btn btn-primary" onClick={() => onSearch(value)}>Search</button>
+              </div>
+              <div className="dropdown">
+                {empIdResults.length > 0 ? (
+                  <div className="dropdown-list">
+                    {empIdResults.map((empId) => (
+                      <div
+                        onClick={() => ondrop(empId)
+                        }
+                        className="dropdown-row"
+                        key={empId}
+                      >
+                        {empId}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  value.length > 0 && <div className="dropdown-row">No results found</div>
+                )}
               </div>
             </div>
+            {searchResults.length > 0 ? (
+  <div>
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="text-start">First Name</th>
+          <th className="text-start">Last Name</th>
+          <th className="text-start">Office Block</th>
+          <th className="text-start">Department</th>
+        </tr>
+      </thead>
+      <tbody>
+        {searchResults.map((user) => (
+          <tr key={user.id}>
+            <td className="text-start">{user.firstName}</td>
+            <td className="text-start">{user.lastName}</td>
+            <td className="text-start">{user.officeBlock}</td>
+            <td className="text-start">{user.department}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <p className="mb-2">
+              <strong>Role:</strong> </p>
+    <select>
+      <option value="">Select Role</option>
+      <option value="manager">Manager</option>
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+      {value === "admin" && (
+        <React.Fragment>
+          <option value="main admin">Main Admin</option>
+          <option value="support admin">Support Admin</option>
+        </React.Fragment>
+      )}
+    </select>
+  </div>
+) : null}
+
+
             <button
               className="btn btn-danger me-2"
               onClick={() => handleReject(selectedUser)}

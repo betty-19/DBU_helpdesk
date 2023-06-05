@@ -7,8 +7,8 @@ import User from "./components/user";
 import Admin from './components/admin';
 import NewUser from './components/newUser'
 import Manager from './components/manager'
-import Table from './components/table'
-import Modal from './components/modal'
+
+
 
 const App = () => {
   return (
@@ -22,8 +22,7 @@ const App = () => {
           <Route path="/admin" element={<Admin/>}  /> 
           <Route path="/newUser" element={<NewUser/>}  />
           <Route path="/manager" element={<Manager/>} />
-          <Route path="/table" element={<Table/>} />
-          <Route path="/modal" element={<Modal/>} />
+         
 
         </Routes>
       </div>

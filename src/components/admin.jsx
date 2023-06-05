@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 //import 'bootstrap-icons/font/bootstrap'
 import NewUser from './newUser.jsx'
-// import Modal from "./modal.jsx";
-// import Table from './table.jsx'
-import App from './app.jsx'
+
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
 import './admin.css'

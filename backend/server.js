@@ -3,16 +3,16 @@ const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-const port = 5001;
+const port = 5005;
 app.use(cors());
 app.use(express.json());
 
 // Create a MySQL connection
 const connection = mysql.createConnection({
-  host: 'localhost',      // Replace with your MySQL host
-  user: 'root',           // Replace with your MySQL username
-  password: "",   // Replace with your MySQL password
-  database: 'helpdesk'     // Replace with your MySQL database name
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'helpdesk',
 });
 
 // Connect to the MySQL database
@@ -27,21 +27,15 @@ connection.connect((err) => {
 // Handle POST requests to '/signup'
 app.post('/signup', (req, res) => {
   // Get the signup data from the request body
-  const { firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor } = req.body;
-
-  // Perform validation
-//   if (!firstName || !lastName || !officeBlock || !phoneNumber || !favoriteNumber || !birthDate || !favoriteColor) {
-//     res.status(400).json({ error: 'Please enter all fields' });
-//     return;
-//   }
+  const { firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor ,  employeeId} = req.body;
 
   // Insert the signup data into the database
-  const sql = 'INSERT INTO register (firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  const values = [firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor];
+  const sql = 'INSERT INTO register (firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor,empId) VALUES (?,?, ?, ?, ?, ?, ?, ?)';
+  const values = [firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor,  employeeId];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
-      console.error('Error inserting data into the database:', err);
+      console.error('Error inserting data into the register:', err);
       res.status(500).json({ error: 'An error occurred while signing up' });
       return;
     }
@@ -50,25 +44,46 @@ app.post('/signup', (req, res) => {
   });
 });
 
+// Handle POST requests to '/pend'
+app.post('/pend', (req, res) => {
+  // Get the last name and phone number from the request body
+  const { lastName, phoneNumber } = req.body;
 
-app.get('/api/categories', (req, res) => {
-  const query = 'SELECT category FROM department';
+  // Insert the data into the pending table
+  const sql = 'INSERT INTO pending (tempUserName, tempPass) VALUES (?, ?)';
+  const values = [lastName, phoneNumber];
 
-  // Execute the query
-  connection.query(query, (error, results) => {
-    if (error) {
-      console.error('Error fetching categories: ', error);
-      res.status(500).json({ error: 'Internal server error' });
-    } else {
-      const categories = results.map((row) => row.category);
-      res.json({ categories });
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting data into the pending:', err);
+      res.status(500).json({ error: 'An error occurred while pending' });
+      return;
     }
+    console.log('Pending data inserted successfully');
+    res.status(200).json({ message: 'Pending successful' });
   });
 });
+app.put('/api/register/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const { status } = req.body;
 
+  try {
+    // Find the user by ID
+    const user = await Register.findByPk(userId);
 
-
-
+    if (user) {
+      // Update the status column
+      user.status = status;
+      await user.save();
+      res.json({ success: true, message: 'User status updated successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error updating user status:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
+  }
+});
 
 // Start the server
 app.listen(port, () => {
