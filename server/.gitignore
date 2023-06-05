@@ -1,2 +1,4 @@
 # .env file has to be hiden from git. because it has secret data.
 .env 
+
+# /node_modules
