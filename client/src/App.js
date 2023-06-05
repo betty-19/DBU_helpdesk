@@ -22,8 +22,6 @@ const App = () => {
           <Route path="/admin" element={<Admin/>}  /> 
           <Route path="/newUser" element={<NewUser/>}  />
           <Route path="/manager" element={<Manager/>} />
-         
-
         </Routes>
       </div>
     </Router>
