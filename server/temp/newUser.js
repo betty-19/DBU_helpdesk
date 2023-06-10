@@ -44,6 +44,7 @@ app.get('/api/newuser', (req, res) => {
     }
   });
 });
+
 // employee
 app.get('/api/employee', (req, res) => {
   const query = 'SELECT * FROM employee';
@@ -65,6 +66,8 @@ app.get('/api/employee', (req, res) => {
     }
   });
 });
+
+
 //end of employee
 //for display table value
 app.get('/api/employee2/:id', (req, res) => {
@@ -92,6 +95,7 @@ app.get('/api/employee2/:id', (req, res) => {
     }
   });
 });
+
 
 //end of table value
 app.get('/api/register', (req, res) => {
