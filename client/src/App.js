@@ -13,17 +13,17 @@ import Manager from './components/manager'
 const App = () => {
   return (
     <Router>
-      <div>
+      {/* <div> */} 
         <Routes>
           <Route path="/" element={ <HomePage />} />
           <Route path="/login" element={ <Login />} />  
           <Route path="/signup" element={ <SignUp />} />  
-          <Route path="/user" element={<User/>} />
-          <Route path="/admin" element={<Admin/>}  /> 
-          <Route path="/newUser" element={<NewUser/>}  />
-          <Route path="/manager" element={<Manager/>} />
+          <Route path="/user" element={<User />} />
+          <Route path="/admin" element={<Admin />}  /> 
+          <Route path="/newUser" element={<NewUser />}  />
+          <Route path="/manager" element={<Manager />} />
         </Routes>
-      </div>
+      {/* </div> */}
     </Router>
   );
 };
