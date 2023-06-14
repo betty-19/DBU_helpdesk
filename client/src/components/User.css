@@ -1,0 +1,156 @@
+/* User.css */
+
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Header */
+  .header {
+    background-color: #333;
+    padding: 10px;
+    color: #fff;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-items: center;
+  }
+  
+  .links a {
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    background-color: #4a90e2;
+    border-radius: 5px;
+  }
+  
+  /* Main Content */
+  .main-content {
+    padding: center;
+    margin: 1px;
+  }
+  
+  .dashboard {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 10px;
+  }
+  
+  .sidebar {
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  
+  .sidebar-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+  
+  .sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-links li {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-links a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .content {
+    background-color: #fff;
+    padding: 20px;
+  }
+  
+  .content-title {
+    margin: 0 0 20px;
+    font-size: 24px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+  }
+  
+  .form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+  }
+  
+  .message-input {
+    max-height: 100px; /* Set the desired maximum height */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    word-wrap: break-word; /* Allow long words to wrap */
+    padding: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+    resize: vertical; /* Allow vertical resizing if needed */
+  }
+  
+  
+  .formatting-buttons {
+    margin-top: 10px;
+  }
+  
+  .formatting-buttons button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 5px;
+  }
+  
+  .valid {
+    color: green;
+    margin-top: 5px;
+  }
+  
+  .btn-primary {
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

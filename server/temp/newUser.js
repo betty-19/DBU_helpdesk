@@ -44,7 +44,6 @@ app.get('/api/newuser', (req, res) => {
     }
   });
 });
-
 // employee
 app.get('/api/employee', (req, res) => {
   const query = 'SELECT * FROM employee';
@@ -66,8 +65,6 @@ app.get('/api/employee', (req, res) => {
     }
   });
 });
-
-
 //end of employee
 //for display table value
 app.get('/api/employee2/:id', (req, res) => {
@@ -95,6 +92,31 @@ app.get('/api/employee2/:id', (req, res) => {
     }
   });
 });
+
+
+
+
+
+// it change the value of the status column from pending to Accept
+app.put('/api/update/:empId', (req, res) => {
+  const userId = req.params.empId;
+  const { status, userName, password, role, department, approve, isNew } = req.body;
+
+  const query = "UPDATE `register` SET `status` = ?, `userName` = ?, `password` = ?, `role` = ?, `department` = ?, `approve` = ?, `new` = ? WHERE `empId` = ?";
+
+  connection.query(query, [status, userName, password, role, department, approve, isNew , userId], (error, results) => {
+    if (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else if (results.affectedRows === 0) {
+      res.status(404).json({ error: 'User not found or no changes were made' });
+    } else {
+      res.json({ message: 'User updated successfully' });
+    }
+  });
+});
+
+
 
 
 //end of table value

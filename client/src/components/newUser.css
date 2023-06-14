@@ -1,85 +1,85 @@
 .table-wrapper {
-    width: 100%;
-  }
+  width: 100%;
+}
+
+.table {
+  overflow: hidden;
+  border-spacing: 0 10px; /* Adjust the spacing as needed */
+  box-shadow: 0px 10px 10px #ccc;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.table thead {
+  background-color: #ccc;
+  color: #222;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+}
+
+.table td {
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tbody tr:hover {
+  background-color: #eee;
+}
+
+.expand {
+  width: 100%;
+}
+
+.label {
+  border-radius: 3px;
+  padding: 0.3rem;
+  color: white;
+}
+
+.label-draft {
+  background-color: #777;
+}
+
+.label-live {
+  background-color: #42a942;
+}
+
+.label-error {
+  background-color: #d9534f;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions svg {
+  cursor: pointer;
+}
+
+.delete-btn {
+  color: #e10d05;
+}
+.dropdown-list {
   
-  .table {
-    overflow: hidden;
-    border-spacing: 0 10px; /* Adjust the spacing as needed */
-    box-shadow: 0px 10px 10px #ccc;
-    border-radius: 10px;
-    white-space: nowrap;
-  }
-  
-  .table thead {
-    background-color: #ccc;
-    color: #222;
-  }
-  
-  .table th,
-  .table td {
-    padding: 0.8rem;
-  }
-  
-  .table td {
-    border-top: 0.5px solid #ddd;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .table tbody tr:hover {
-    background-color: #eee;
-  }
-  
-  .expand {
-    width: 100%;
-  }
-  
-  .label {
-    border-radius: 3px;
-    padding: 0.3rem;
-    color: white;
-  }
-  
-  .label-draft {
-    background-color: #777;
-  }
-  
-  .label-live {
-    background-color: #42a942;
-  }
-  
-  .label-error {
-    background-color: #d9534f;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  .actions svg {
-    cursor: pointer;
-  }
-  
-  .delete-btn {
-    color: #e10d05;
-  }
-  .dropdown-list {
-    
-    max-height: 150px;
-    max-width: 190px;
-    overflow-y: auto;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px;
-  }
-  
-  .dropdown-row {
-    cursor: pointer;
-    padding: 5px;
-  }
-  
-  .dropdown-row:hover {
-    background-color: #f4f4f4;
-  }
+  max-height: 150px;
+  max-width: 190px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.dropdown-row {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.dropdown-row:hover {
+  background-color: #f4f4f4;
+}

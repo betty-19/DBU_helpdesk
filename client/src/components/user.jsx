@@ -1,184 +1,94 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link , useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/js/dist/dropdown'
+import 'bootstrap/js/dist/collapse'
+import './admin.css'
+import Ticket from "./createTicket.jsx";
+import UserList from "./userList.jsx";
 
-const User = () => {
-  const [message, setMessage] = useState('');
-  const textRef = useRef(null);
-  const [titleError, setTitleError] = useState('');
-  const [categoryError, setCategoryError] = useState('');
-  const [bothError, setBothError] = useState('');
-  const [bothValid , setBothValid] = useState('');
-  const [category, setCategory] = useState(''); 
-  const [categories, setCategories] = useState([]);
+function User() {
+  const [showNewUsers, setShowNewUsers] = useState(false);
+  const [showEmployeeList, setShowEmployeeList] = useState(false);
 
-  useEffect(() => {
-    fetch('http://localhost:5001/api/categories')
-      .then((response) => response.json())
-      .then((data) => {
-        setCategories(data.categories);
-      })
-      .catch((error) => {
-        console.error('Error fetchin g categories: ', error);
-      });
-  }, []);
-  
-  
-  const handleFormatting = (command, value) => {
-    // Check if there is selected text
-    const selectedText = window.getSelection().toString();
-    if (selectedText.length > 0) {
-      // Execute the specified command with the value
-      document.execCommand(command, false, value);
-    }
+  const handleNewClick = () => {
+    setShowNewUsers(true);
+    setShowEmployeeList(false);
   };
 
-  const handleIncreaseFontSize = () => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      for (let i = 0; i < selection.rangeCount; i++) {
-        const range = selection.getRangeAt(i);
-        const span = document.createElement('span');
-        span.style.fontSize = 'larger';
-        range.surroundContents(span);
-      }
-    }
+  const handleLinkClick = () => {
+    setShowNewUsers(false);
   };
-  
 
-  const handleDecreaseFontSize = () => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const span = document.createElement('span');
-      span.style.fontSize = 'smaller';
-      range.surroundContents(span);
-    }
+  const handleEmployeeClick = () => {
+    setShowEmployeeList(!showEmployeeList);
+    setShowNewUsers(false);
   };
-  const handleSubmit = () => {
-    // Reset any previous error messages
-    setTitleError('');
-    setCategoryError('');
-  
-    // Get the values from the form inputs
-    const title = document.getElementById('title').value;
-    const category = document.getElementById('category').value;
-  
-    // Perform validation
-    let isValid = true;
-    if(title.trim() === '' && category === ''){
-      setBothError('Please fill category and title')
-      isValid = false;
- }
-    if (title.trim() === '') {
-      setTitleError('Title is required');
-      isValid = false;
-    }
-  
-    if (category === '') {
-      setCategoryError('Category is required');
-      isValid = false;
-    }
-    
-  
-    if (isValid) {
-      // Submit the form or perform further actions
-      // ...
-      // Example: Submit the form using axios
-      axios.post('http://localhost:5002/ticket',
-      { title,
-        chat: message,
-        category
-         })
-         .then((response) => {
-          if (response && response.data) {
-            console.log('Ticket created successfully', response.data);
-            setBothValid('Ticket created successfully');
-            document.getElementById('title').value = ''; // Reset the title field
-            textRef.current.innerHTML = ''; // Reset the message field
-          setCategory(''); // Reset the category field
-          // Reset form fields or perform any other necessary actions
-            // Reset form fields or perform any other necessary actions
-            // Reset form fields or perform any other necessary actions
-          }
-        })
-        .catch((error) => {
-          console.error('Ticket creation failed:', error);
-          // Handle the error or display an error message
-        });
-    }
-  };
-  
 
   return (
-    <div className="user-page">
-      {/* Header */}
-      <header className="bg-dark">
-        <div className="container d-flex justify-content-between align-items-center py-3">
-          <div>
-            <h1 className="text-light">DBU HelpDesk</h1>
-          </div>
-          <div>
-            <Link to="/" className="text-light mx-2">Create Ticket</Link>
-            <Link to="/faq" className="text-light mx-2">FAQ</Link>
-            <Link to="/tickets" className="text-light mx-2">Tickets</Link>
-            <Link to="/logout" className="text-light mx-2">Log out</Link>
-          </div>
-        </div>
-      </header>
+    <div className='container-fluid'>
+      <div className='row'>
+        <div className='col-auto col-sm-2 bg-dark d-flex flex-column justify-content-between min-vh-100'>
+          <div className="mt-2">
+            <a className='text-decoration-none ms-4 d-flex align-item-center text-white d-none d-sm-inline' role='button'>
+              <span className='f5-4'>Side Menu</span>
+            </a>
+            <hr className='text-white d-none d-sm-block'></hr>
+            <ul class='nav nav-pills flex-column mt-2 mt-sm-0' id='parentM'>
+              <li class='nav-item my-1 py-2 py-sm-0'>
+                <a href="#" class="nav-link text-white text-center text-sm-start" aria-current="page" onClick={handleLinkClick}>
+                  <i className='bi bi-speedometer2'></i>
+                  <span className='ms-2 d-none d-sm-inline'>Dashboard</span>
+                </a>
+              </li>
+              <li class='nav-item my-1 py-2 py-sm-0'>
+                <a href="#submenu" class="nav-link text-white" data-bs-toggle="collapse" aria-current="page" onClick={handleNewClick}>
+                  <i className='bi bi-grid'></i>
+                  <span className='ms-2 d-none d-sm-inline'>Create Ticket</span>
+                  <i className='bi bi-arrow-down-short ms-0 ms-sm-3'></i>
+                </a>
 
-      {/* Page content */}
-      <main className="main-content">
-        <div className="container">
-          <h2>Welcome to the User Page</h2>
-          <div className="mb-3">
-            <label htmlFor="title" className="form-label">Title</label>
-            <input type="text" className="form-control" id="title" />
-            {titleError && <div className="error">{titleError}</div>}
+                <ul class="nav collapse ms-2 flex-column" id='submenu' data-bs-parent="#parentM">
+                  {/* <li class="nav-item ">
+                    <a class="nav-link text-white" aria-current="page" onClick={handleLinkClick}>
+                      <span className="d-none d-sm-inline">new</span>
+                    </a>
+                  </li> */}
+                  <li class="nav-item ">
+                    <a class="nav-link text-white " href="#" onClick={handleLinkClick}>
+                      <span className="d-none d-sm-inline">Created Ticket</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class='nav-item my-1 py-2 py-sm-0'>
+                <a href="#" class="nav-link text-white" aria-current="page" onClick={handleLinkClick}>
+                  <i className='bi bi-people'></i>
+                  <span className='ms-2 d-none d-sm-inline'>logout</span>
+                </a>
+              </li>
+            </ul>
           </div>
-          <div className="mb-3">
-      <label htmlFor="category" className="form-label">Category</label>
-      <select className="form-select" id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-        <option>Select a category</option>
-        {categories.map((category) => (
-          <option key={category}>{category}</option>
-        ))}
-      </select>
-      {categoryError && <div className="error">{categoryError}</div>}
-    </div>
-          <div className="mb-3">
-            <label htmlFor="message" className="form-label">Message</label>
-            <div
-              className="form-control message-input"
-              contentEditable="true"
-              ref={textRef}
-              onInput={(e) => setMessage(e.target.innerHTML)}
-            ></div>
-            <div className="formatting-buttons">
-              <button onClick={() => handleFormatting('bold')}><strong>B</strong></button>
-              <button onClick={() => handleFormatting('italic')}><em>I</em></button>
-              <button onClick={() => handleFormatting('underline')}><u>U</u></button>
-              <button onClick={handleIncreaseFontSize}>font-inc</button>
-              <button onClick={handleDecreaseFontSize}>font-dec</button>
-              <select onChange={(e) => handleFormatting('foreColor', e.target.value)}>
-  <option value="">Choose a color</option>
-  <option value="red">Red</option>
-  <option value="blue">Blue</option>
-  <option value="green">Green</option>
-  <option value="yellow">Yellow</option>
-  <option value="black">Black</option> {/* Added option to change back to black */}
-</select>
-
+          <div class="dropdown open">
+            <a class="btn border-none  dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">Bety</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="triggerId">
+              <a class="dropdown-item" href="#">Profile</a>
+              <a class="dropdown-item" href="#">Setting action</a>
             </div>
           </div>
-          {bothError && <div className="error">{bothError}</div>}
-          {bothValid && <div className="valid">{bothValid}</div>}
-          <button type="button" className="btn btn-primary" onClick={handleSubmit}>Send</button>
-
         </div>
-      </main>
+        <div className='col-sm-10'>
+          {/* Conditional rendering of NewUsers component */}
+          {showNewUsers && <Ticket />}
+
+          {/* Conditional rendering of UserList component */}
+          {showEmployeeList && <UserList />}
+        </div>
+      </div>
     </div>
   );
-};
+}
 
 export default User;

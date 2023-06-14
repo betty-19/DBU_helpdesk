@@ -1,46 +1,46 @@
 .login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: rgba(146, 121, 185, 0.5); /* Adjust the opacity as desired */
-  }
-  
-  .login-box {
-    width: 500px;
-    height: 500px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 10px 10px rgba(123, 62, 192, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(146, 121, 185, 0.5); /* Adjust the opacity as desired */
+}
 
-  }
-  
-  .login-form {
-    margin-top: 50px;
-  }
-  
-  .reset-password {
-    margin-top: 30px;
-  }
-  
-  /* Additional styles for Bootstrap form control */
-  .form-control {
-    margin-bottom: 20px;
-  }
-  .text-center {
-    margin-top: 15px;
-  }
-  .login-form button {
-    display: block;
-    width: 50%;
-    align-self: center;
-    padding: 10px;
-    margin-top: 20px;
-    margin-left: 130px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.login-box {
+  width: 500px;
+  height: 500px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 10px 10px rgba(123, 62, 192, 0.3);
+
+}
+
+.login-form {
+  margin-top: 50px;
+}
+
+.reset-password {
+  margin-top: 30px;
+}
+
+/* Additional styles for Bootstrap form control */
+.form-control {
+  margin-bottom: 20px;
+}
+.text-center {
+  margin-top: 15px;
+}
+.login-form button {
+  display: block;
+  width: 50%;
+  align-self: center;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 130px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+//import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './SignUp.css'; // Create a separate CSS file for Signup page styles
 import axios from 'axios'
@@ -61,6 +61,53 @@ const [temporaryPassword, setTemporaryPassword] = useState('');
   const handleSignup = () => {
     // Perform validation
     let validationErrors = {};
+    if (!firstName) {
+      validationErrors.firstName = 'Please enter your First Name';
+    } else if (/\d/.test(firstName)) {
+      validationErrors.firstName = 'First Name cannot contain numbers';
+    }
+
+    if (!lastName) {
+      validationErrors.lastName = 'Please enter your Last Name';
+    } else if (/\d/.test(lastName)) {
+      validationErrors.lastName = 'Last Name cannot contain numbers';
+    }
+
+    if (!officeBlock) {
+      validationErrors.officeBlock = 'Please enter your Office Block';
+    }
+
+    if (!phoneNumber) {
+      validationErrors.phoneNumber = 'Please enter your Phone Number';
+    } else if (/\D/.test(phoneNumber)) {
+      validationErrors.phoneNumber = 'Phone Number cannot contain letters';
+    }
+
+    if (!favoriteNumber) {
+      validationErrors.favoriteNumber = 'Please enter your Favorite Number';
+    } else if (/\D/.test(favoriteNumber)) {
+      validationErrors.favoriteNumber = 'Favorite Number cannot contain letters';
+    }
+
+    if (!birthDate) {
+      validationErrors.birthDate = 'Please enter your Birth Date';
+    } else {
+      const currentDate = new Date();
+      const selectedDate = new Date(birthDate);
+
+      if (selectedDate > currentDate) {
+        validationErrors.birthDate = 'Birth Date cannot be in the future';
+      } else if (selectedDate.getFullYear() > 2002) {
+        validationErrors.birthDate = 'Birth Date cannot be after 2002';
+      }
+    }
+
+    if (!favoriteColor) {
+      validationErrors.favoriteColor = 'Please enter your Favorite Color';
+    } else if (/\d/.test(favoriteColor)) {
+      validationErrors.favoriteColor = 'Invalid Favorite Color';
+    }
+  
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setErrors((prevErrors) => ({
@@ -70,83 +117,37 @@ const [temporaryPassword, setTemporaryPassword] = useState('');
     } else {
       // Clear any previous general error message
       setErrors({});
-  
+    }
       // Perform signup logic with form data
       console.log('Signup clicked');
-    }
-    const username = lastName;
+      const username = lastName;
       const password = phoneNumber;
       setTemporaryUsername(username);
       setTemporaryPassword(password);
   
-    if (!firstName) {
-      validationErrors.firstName = 'Please enter your First Name';
-    }
-  
-    if (!lastName) {
-      validationErrors.lastName = 'Please enter your Last Name';
-    }
-  
-    if (!officeBlock) {
-      validationErrors.officeBlock = 'Please enter your Office Block';
-    }
-  
-    if (!phoneNumber) {
-      validationErrors.phoneNumber = 'Please enter your Phone Number';
-    }
-  
-    if (!favoriteNumber) {
-      validationErrors.favoriteNumber = 'Please enter your Favorite Number';
-    }
-  
-    if (!birthDate) {
-      validationErrors.birthDate = 'Please enter your Birth Date';
-    }
-  
-    if (!favoriteColor) {
-      validationErrors.favoriteColor = 'Please enter your Favorite Color';
-    }
-    
-  if (!employeeId) {
-    validationErrors.employeeId = 'Please enter your Employee ID';
-  }
-    axios
-    .post('http://localhost:5005/pend', {
-      lastName,
-      phoneNumber
-    })
-    .then((response) => {
-      console.log('Signup successful:', response.data);
-      // Handle successful signup
-    })
-    .catch((error) => {
-      console.error('Error during signup:', error.response.data);
-      // Handle error during signup
-    });
-   
-    // if (validationErrors.birthDate==="" && validationErrors.favoriteColor && validationErrors.favoriteNumber && validationErrors.firstName && validationErrors.lastName && validationErrors.phoneNumber && validationErrors.officeBlock){
       axios
-      .post('http://localhost:5005/signup', {
-        firstName,
-        lastName,
-        officeBlock,
-        phoneNumber,
-        favoriteNumber,
-        birthDate,
-        favoriteColor,
-        employeeId
-      })
-      .then((response) => {
-        console.log('Signup successful:', response.data);
-        //navigate('/');
-        // Handle successful signup, e.g., redirect to a success page
-      })
-      .catch((error) => {
-        console.error('Error during signup:', error.response.data);
-        // Handle error during signup
-      });
-    //}
+        .post('http://localhost:5005/signup', {
+          firstName,
+          lastName,
+          officeBlock,
+          phoneNumber,
+          favoriteNumber,
+          birthDate,
+          favoriteColor,
+          employeeId,
+        })
+        .then((response) => {
+          console.log('Signup successful:', response.data);
+          //navigate('/');
+          // Handle successful signup, e.g., redirect to a success page
+        })
+        .catch((error) => {
+          console.error('Error during signup:', error.response.data);
+          // Handle error during signup
+        });
+    
   };
+  
   
   
 

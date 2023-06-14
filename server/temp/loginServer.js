@@ -16,11 +16,11 @@ const connection = mysql.createConnection({
 });
 
 // Endpoint to handle the login request
-app.post('/login', (req, res) => {
+app.post('user/login', (req, res) => {
   const { username, password } = req.body;
 
   // Query the database to check if the username and password match
-  const query = 'SELECT * FROM register WHERE userName = ? AND password = ?';
+  const query = 'SELECT * FROM register WHERE userName = ? AND password = ? AND role = "User"';
   connection.query(query, [username, password], (error, results) => {
     if (error) {
       console.error('Error during login:', error);

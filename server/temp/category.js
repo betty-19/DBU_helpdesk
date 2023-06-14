@@ -1,30 +1,28 @@
 const express = require('express');
-// const mysql = require('mysql');
-const connection = require('./dbu');
+const mysql = require('mysql');
 const cors = require('cors');
 
 const app = express();
-const port = 3002;
+const port = 4000;
 app.use(cors());
 app.use(express.json());
 
+// Configure the database connection
+const connection = mysql.createConnection({
+  host: 'localhost',      // Replace with your MySQL host
+  user: 'root',           // Replace with your MySQL username
+  password: '',           // Replace with your MySQL password
+  database: 'helpdesk'    // Replace with your MySQL database name
+});
 
-// // Configure the database connection
-// const connection = mysql.createConnection({
-//     host: 'localhost',      // Replace with your MySQL host
-//     user: 'root',           // Replace with your MySQL username
-//     password: "",   // Replace with your MySQL password
-//     database: 'helpdesk'     // Replace with your MySQL database name
-//   });
-
-// // Establish the database connection
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Database connection failed: ', err);
-//   } else {
-//     console.log('Connectedd to the database');
-//   }
-// });
+// Establish the database connection
+connection.connect((err) => {
+  if (err) {
+    console.error('Database connection failed: ', err);
+  } else {
+    console.log('Connected to the database');
+  }
+});
 
 // Define a route to fetch the categories
 app.get('/api/categories', (req, res) => {
@@ -41,12 +39,13 @@ app.get('/api/categories', (req, res) => {
     }
   });
 });
+
 // Define a route for the root URL
 app.get('/', (req, res) => {
-    res.send('Hello, this is the root URL');
-  });
+  res.send('Hello, this is the root URL');
+});
 
 // Start the server
 app.listen(port, () => {
-  console.log('Server is running on port 3002');
+  console.log(`Server is running on port ${port}`);
 });
