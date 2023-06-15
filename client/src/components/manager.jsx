@@ -3,13 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/collapse';
 import './admin.css';
-import AssignTicket from "./assignTicket.jsx";
+import OpenTickets from "./openTickets.jsx";
 
 
 function Manager() {
   const [showOpenTicket, setShowOpenTicket] = useState(false);
   
-  const handleNewTicket = () => {
+  const handleOpenTicket = () => {
     console.log("New Ticket clicked");
     setShowOpenTicket(true);
   };
@@ -41,7 +41,7 @@ function Manager() {
                 </a>
                 <ul className="nav collapse ms-2 flex-column" id="submenu" data-bs-parent="#parentM">
                   <li className="nav-item">
-                    <a className="nav-link text-white" aria-current="page" onClick={handleNewTicket}>
+                    <a className="nav-link text-white" aria-current="page" onClick={handleOpenTicket}>
                       <span className="d-none d-sm-inline">Open Ticket</span>
                     </a>
                   </li>
@@ -77,7 +77,7 @@ function Manager() {
           </div>
         </div>
         {/* Display AssignTicket component */}
-        {showOpenTicket && <AssignTicket />}
+        {showOpenTicket && <OpenTickets />}
       </div>
     </div>
   );

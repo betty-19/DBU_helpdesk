@@ -26,10 +26,16 @@ connection.connect((err) => {
 
 // Handle POST requests to '/signup'
 app.post('/ticket', (req, res) => {
-  
+  // Get the signup data from the request body
   const { title, chat, category } = req.body;
 
+  // Perform validation
+//   if (!firstName || !lastName || !officeBlock || !phoneNumber || !favoriteNumber || !birthDate || !favoriteColor) {
+//     res.status(400).json({ error: 'Please enter all fields' });
+//     return;
+//   }
 
+  // Insert the signup data into the database
   const sql = 'INSERT INTO ticket (title, chat, category) VALUES (?, ?, ?)';
   const values = [title, chat, category];
 

@@ -8,6 +8,7 @@ import Admin from './components/admin';
 import NewUser from './components/newUser'
 import Manager from './components/manager'
 import CreateTicket from './components/createTicket'
+import OpenTickets from './components/openTickets';
 
 
 
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/newUser" element={<NewUser />}  />
           <Route path="/manager" element={<Manager />} />
           <Route path="/ctreateTicket" element={<CreateTicket />} />
+          <Route path="/openTicket" element={<OpenTickets />} />
         </Routes>
       {/* </div> */}
     </Router>

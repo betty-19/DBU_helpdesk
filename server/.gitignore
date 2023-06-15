@@ -1,5 +1,4 @@
-# secret data.
+# .env file has to be hiden from git. because it has secret data.
 .env 
 
-# dependencies
-/node_modules
+# /node_modules

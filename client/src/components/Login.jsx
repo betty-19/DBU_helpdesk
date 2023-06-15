@@ -48,7 +48,7 @@ const Login = () => {
         loginUrl = 'http://localhost:5000/agent/login'; // Replace with the appropriate API endpoint for agent login
         break;
       default:
-        setError('Invalid role');
+        setError('Invaliddd role');
         return;
     }
 
@@ -71,7 +71,7 @@ const Login = () => {
             nav('/agent');
             break;
           default:
-            setError('Invalid role');
+            setError('Invalidd role');
         }
       })
       .catch((error) => {

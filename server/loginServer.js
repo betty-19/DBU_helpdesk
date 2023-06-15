@@ -20,7 +20,7 @@ app.post('user/login', (req, res) => {
   const { username, password } = req.body;
 
   // Query the database to check if the username and password match
-  const query = 'SELECT * FROM register WHERE userName = ? AND password = ? AND role = "User"';
+  const query = 'SELECT * FROM register WHERE userName = ? AND password = ?';
   connection.query(query, [username, password], (error, results) => {
     if (error) {
       console.error('Error during login:', error);
@@ -29,6 +29,7 @@ app.post('user/login', (req, res) => {
       if (results.length > 0) {
         // Login successful
         res.json({ message: 'Login successful' });
+        
       } else {
         // Invalid username or password
         res.status(401).json({ error: 'Invalid username or password' });
