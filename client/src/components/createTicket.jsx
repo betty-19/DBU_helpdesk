@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 // import { Link , useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import { useSelector } from 'react-redux';
+
 import './User.css'
 
 const Ticket = () => {
@@ -12,6 +14,8 @@ const Ticket = () => {
   const [bothValid , setBothValid] = useState('');
   const [category, setCategory] = useState(''); 
   const [categories, setCategories] = useState([]);
+  const creatorId = useSelector((state) => state.user.empId);
+  const user = useSelector(state => state.user);
 
   useEffect(() => {
     fetch('http://localhost:4000/api/categories')
@@ -89,7 +93,8 @@ const Ticket = () => {
       axios.post('http://localhost:5002/ticket',
       { title,
         chat: message,
-        category
+        category,
+        creator_id: creatorId,
          })
          .then((response) => {
           if (response && response.data) {
@@ -116,6 +121,7 @@ const Ticket = () => {
       {/* Page content */}
       <main className="main-content">
         <div className="container">
+        <h1>Welcome, {user.userName}!</h1>
           <h2>Create Ticket</h2>
           <div className="mb-3">
             <label htmlFor="title" className="form-label">Title</label>

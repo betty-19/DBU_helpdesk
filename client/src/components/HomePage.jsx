@@ -24,7 +24,7 @@ const HomePage = () => {
           <div className="header-links">
             <div className="d-flex">
               <Link to="/" className="text-light mx-2">Home</Link>
-              <div className={`dropdown ${showLoginOptions ? 'show' : ''}`}>
+              {/* <div className={`dropdown ${showLoginOptions ? 'show' : ''}`}>
                 <span
                   className="text-light mx-2 dropdown-toggle"
                   onClick={handleLoginClick}
@@ -40,7 +40,8 @@ const HomePage = () => {
                   <Link to={{ pathname: "/login", state: { role: "user" } }} className="dropdown-item">User</Link>
                   <Link to={{ pathname: "/login", state: { role: "pending" } }} className="dropdown-item">Pending</Link>
                 </div>
-              </div>
+              </div> */}
+              <Link to="/login" className="text-light mx-2">Login</Link>
               <Link to="/signup" className="text-light mx-2">Signup</Link>
             </div>
           </div>

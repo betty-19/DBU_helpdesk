@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import './Login.css';
 import axios from 'axios';
@@ -8,11 +9,11 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
   const nav = useNavigate();
   const location = useLocation();
 
-  const role = location.state?.role;
-  console.log(role)
+  
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -30,54 +31,37 @@ const Login = () => {
       setError('Please enter both username and password');
       return;
     }
+     
+    axios.post('http://localhost:5000/api/login', { username, password })
+  .then((response) => {
+    // Authentication successful
+    const user = response.data;
 
-    // Perform login logic with the username and password based on the selected role
-    let loginUrl = '';
-    switch (role) {
-      case 'admin':
-        loginUrl = 'http://localhost:5000/admin/login'; // Replace with the appropriate API endpoint for admin login
-        break;
-      case 'manager':
-        loginUrl = 'http://localhost:5000/manager/login'; // Replace with the appropriate API endpoint for manager login
-        break;
-      case 'user':
-        loginUrl = 'http://localhost:5000/user/login';
-         // Replace with the appropriate API endpoint for user login
-        break;
-      case 'agent':
-        loginUrl = 'http://localhost:5000/agent/login'; // Replace with the appropriate API endpoint for agent login
-        break;
-      default:
-        setError('Invaliddd role');
-        return;
+    // Dispatch the LOGIN action with the user information
+    dispatch({ type: 'LOGIN', payload: user });
+
+    // Redirect to the appropriate page based on the user's role
+    if (user.role === 'Admin') {
+      nav('/admin');
+    } else if (user.role === 'Manager') {
+      nav('/manager');
+    } else if (user.role === 'agent') {
+      nav('/agent');
+    } else if (user.role === 'User') {
+      nav('/user');
     }
+  })
+  .catch((error) => {
+    // Authentication failed
+    setError('Invalid username or password');
+  });
 
-    axios
-      .post(loginUrl, { username, password })
-      .then((response) => {
-        console.log('Login successful:', response.data);
-        // Redirect the user to the desired page after successful login
-        switch (role) {
-          case 'admin':
-            nav('/admin');
-            break;
-          case 'manager':
-            nav('/manager');
-            break;
-          case 'user':
-            nav('/user');
-            break;
-          case 'agent':
-            nav('/agent');
-            break;
-          default:
-            setError('Invalidd role');
-        }
-      })
-      .catch((error) => {
-        console.error('Error during login:', error.response.data);
-        setError('Invalid username or password');
-      });
+
+  
+
+   
+
+   
   };
 
   const handleResetPassword = () => {

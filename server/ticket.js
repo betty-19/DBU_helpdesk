@@ -27,7 +27,7 @@ connection.connect((err) => {
 // Handle POST requests to '/signup'
 app.post('/ticket', (req, res) => {
   // Get the signup data from the request body
-  const { title, chat, category } = req.body;
+  const { title, chat, category, creator_id } = req.body;
 
   // Perform validation
 //   if (!firstName || !lastName || !officeBlock || !phoneNumber || !favoriteNumber || !birthDate || !favoriteColor) {
@@ -36,8 +36,8 @@ app.post('/ticket', (req, res) => {
 //   }
 
   // Insert the signup data into the database
-  const sql = 'INSERT INTO ticket (title, chat, category) VALUES (?, ?, ?)';
-  const values = [title, chat, category];
+  const sql = 'INSERT INTO ticket (title, chat, category,createdBy) VALUES (?, ?, ? , ?)';
+  const values = [title, chat, category, creator_id];
 
   connection.query(sql, values, (err, result) => {
     if (err) {

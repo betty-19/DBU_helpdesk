@@ -16,7 +16,29 @@ const connection = mysql.createConnection({
 });
 
 // Endpoint to handle the login request
-app.post('user/login', (req, res) => {
+// app.post('/user/login', (req, res) => {
+//   const { username, password } = req.body;
+
+//   // Query the database to check if the username and password match
+//   const query = 'SELECT * FROM register WHERE userName = ? AND password = ?';
+//   connection.query(query, [username, password], (error, results) => {
+//     if (error) {
+//       console.error('Error during login:', error);
+//       res.status(500).json({ error: 'Internal server error' });
+//     } else {
+//       if (results.length > 0) {
+//         // Login successful
+//         res.json({ message: 'Login successful' });
+        
+//       } else {
+//         // Invalid username or password
+//         res.status(401).json({ error: 'Invalid username or password' });
+//       }
+//     }
+//   });
+// });
+// Endpoint to handle the login request
+app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
 
   // Query the database to check if the username and password match
@@ -27,9 +49,11 @@ app.post('user/login', (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     } else {
       if (results.length > 0) {
-        // Login successful
-        res.json({ message: 'Login successful' });
-        
+        const user = results[0]; // Assuming there's only one user with matching credentials
+        const { userName, empId, role,department } = user;
+
+        // Login successful, send the user information
+        res.json({ userName, empId, role, department });
       } else {
         // Invalid username or password
         res.status(401).json({ error: 'Invalid username or password' });
@@ -37,6 +61,8 @@ app.post('user/login', (req, res) => {
     }
   });
 });
+
+
 
 // Start the server
 app.listen(port, () => {
