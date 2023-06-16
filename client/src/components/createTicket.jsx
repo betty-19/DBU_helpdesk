@@ -139,7 +139,7 @@ const Ticket = () => {
       {categoryError && <div className="error">{categoryError}</div>}
     </div>
           <div className="mb-3">
-            <label htmlFor="message" className="form-label">Message</label>
+            <label htmlFor="message" className="form-label">Discription</label>
             <div
               className="form-control message-input"
               contentEditable="true"
