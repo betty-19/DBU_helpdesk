@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
@@ -11,58 +11,41 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'root',
   database: 'helpdesk',
 });
 
-// Endpoint to handle the login request
-// app.post('/user/login', (req, res) => {
-//   const { username, password } = req.body;
+// take this line at the top. and install bcrypt package, command: [npm install bcrypt]
+const bcrypt = require('bcrypt')
 
-//   // Query the database to check if the username and password match
-//   const query = 'SELECT * FROM register WHERE userName = ? AND password = ?';
-//   connection.query(query, [username, password], (error, results) => {
-//     if (error) {
-//       console.error('Error during login:', error);
-//       res.status(500).json({ error: 'Internal server error' });
-//     } else {
-//       if (results.length > 0) {
-//         // Login successful
-//         res.json({ message: 'Login successful' });
-        
-//       } else {
-//         // Invalid username or password
-//         res.status(401).json({ error: 'Invalid username or password' });
-//       }
-//     }
-//   });
-// });
 // Endpoint to handle the login request
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-
+  // console.log(req.body)
   // Query the database to check if the username and password match
-  const query = 'SELECT * FROM register WHERE userName = ? AND password = ?';
-  connection.query(query, [username, password], (error, results) => {
-    if (error) {
-      console.error('Error during login:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    } else {
-      if (results.length > 0) {
-        const user = results[0]; // Assuming there's only one user with matching credentials
-        const { userName, empId, role,department } = user;
-
-        // Login successful, send the user information
-        res.json({ userName, empId, role, department });
-      } else {
-        // Invalid username or password
-        res.status(401).json({ error: 'Invalid username or password' });
-      }
-    }
-  });
+    const query = "SELECT * FROM account WHERE username = ? AND status = 'active'"; 
+    connection.query(query, username, async (error, results) => {
+      if (error) {
+        //   console.error('Error during login:', error);
+          res.status(500).json({ error: 'Internal server error' });
+        } else {
+          if (results.length > 0) {
+            // decrypt and compare the inserted password.
+            if(await bcrypt.compare(password, results[0].password)){
+              // Login successful
+              delete results[0].password;
+              res.json(results);
+            } else {
+            // Invalid username or password
+            res.status(401).json({ error: 'Invalid username or password' });              
+            }      
+          } else {
+            // Invalid username or password
+            res.status(401).json({ error: 'Invalid username or password' });
+          }
+        }
+     });
 });
-
-
 
 // Start the server
 app.listen(port, () => {
