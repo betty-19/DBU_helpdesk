@@ -61,7 +61,7 @@ function OpenTickets() {
       };
 
       try {
-        const response = await axios.post("http://localhost:5002/api/openTickets", data);
+        const response = await axios.post("http://localhost:5002/api/storeOpenTickets", data);
         console.log("Ticket assigned successfully:", response.data);
         setSelectedTicket(null);
         setTicketDetails(null);

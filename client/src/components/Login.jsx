@@ -33,23 +33,25 @@ const Login = () => {
     }
      
     axios.post('http://localhost:5000/api/login', { username, password })
-  .then((response) => {
+  .then(async (response) => {
+    console.log(response)
     // Authentication successful
     const user = response.data;
-
+  console.log(user[0].role)
     // Dispatch the LOGIN action with the user information
     dispatch({ type: 'LOGIN', payload: user });
-
+    const role = (user[0].role).toLowerCase();
     // Redirect to the appropriate page based on the user's role
-    if (user.role === 'Admin') {
+    if (role === 'admin') {
       nav('/admin');
-    } else if (user.role === 'Manager') {
+    } else if (role === 'manager') {
       nav('/manager');
-    } else if (user.role === 'agent') {
+    } else if (role === 'agent') {
       nav('/agent');
-    } else if (user.role === 'User') {
+    } else if (role === 'user') {
       nav('/user');
     }
+    setError('you have assigned with incorrect roll');
   })
   .catch((error) => {
     // Authentication failed

@@ -18,7 +18,7 @@ const Ticket = () => {
   const user = useSelector(state => state.user);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/categories')
+    fetch('http://localhost:4000/api/getCategories')
       .then((response) => response.json())
       .then((data) => {
         setCategories(data.categories);
@@ -94,7 +94,7 @@ const Ticket = () => {
       { title,
         chat: message,
         category,
-        creator_id: creatorId,
+        creator_id: 2,
          })
          .then((response) => {
           if (response && response.data) {
@@ -125,12 +125,12 @@ const Ticket = () => {
           <h2>Create Ticket</h2>
           <div className="mb-3">
             <label htmlFor="title" className="form-label">Title</label>
-            <input type="text" className="form-control" id="title" />
+            <input type="text" className="form-control" id="title" onClick={() => setBothValid('')} />
             {titleError && <div className="error">{titleError}</div>}
           </div>
           <div className="mb-3">
       <label htmlFor="category" className="form-label">Category</label>
-      <select className="form-select" id="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select className="form-select" id="category" value={category} onChange={(e) => setCategory(e.target.value)}  onClick={() => setBothValid('')}>
         <option>Select a category</option>
         {categories.map((category) => (
           <option key={category}>{category}</option>
@@ -144,7 +144,9 @@ const Ticket = () => {
               className="form-control message-input"
               contentEditable="true"
               ref={textRef}
-              onInput={(e) => setMessage(e.target.innerHTML)}
+              onInput={(e) => setMessage(e.target.innerHTML)
+              }
+              onClick={() => setBothValid('')}
             ></div>
             <div className="formatting-buttons">
               <button onClick={() => handleFormatting('bold')}><strong>B</strong></button>

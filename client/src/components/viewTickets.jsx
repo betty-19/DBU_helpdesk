@@ -13,7 +13,7 @@ const ViewTicket = () => {
 
   const fetchTickets = async () => {
     try {
-      const response = await axios.get(`/api/tickets?createdBy=${empId}`);
+      const response = await axios.get(`http://localhost:5002/api/getTicketByCreaterId?createdBy=${empId}`);
       setTickets(response.data);
     } catch (error) {
       console.error(error);

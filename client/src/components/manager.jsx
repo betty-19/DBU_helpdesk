@@ -16,7 +16,7 @@ function Manager() {
   const [category, setCategory] = useState('');
   const textRef = useRef(null);
   const [message, setMessage] = useState('');
-
+  
   const handleOpenTicket = () => {
     console.log("New Ticket clicked");
     setShowOpenTicket(true);
