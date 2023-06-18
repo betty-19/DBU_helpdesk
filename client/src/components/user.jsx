@@ -4,25 +4,32 @@ import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
 import './admin.css'
 import Ticket from "./createTicket.jsx";
-import UserList from "./userList.jsx";
-
+import DisplayFaq from "./displayFaq";
+import ViewTickets from "./viewTickets"
 function User() {
-  const [showNewUsers, setShowNewUsers] = useState(false);
-  const [showEmployeeList, setShowEmployeeList] = useState(false);
+  const [showCreateTicket, setShowCreateTicket] = useState(false);
+  const [displayFaq, setDisplayFaq] = useState(false);
+  const [showViewTickets , setShowViewTickets] = useState(false)
 
-  const handleNewClick = () => {
-    setShowNewUsers(true);
-    setShowEmployeeList(false);
+  const handleCreateTicket = () => {
+    setShowCreateTicket(true);
+    setDisplayFaq(false)
+    setShowViewTickets(false)
   };
 
   const handleLinkClick = () => {
-    setShowNewUsers(false);
+    setShowCreateTicket(false);
   };
+  const handleFaqClick = () =>{
+    setDisplayFaq(true)
+    setShowCreateTicket(false);
+    setShowViewTickets(false)
+  }
 
-  const handleEmployeeClick = () => {
-    setShowEmployeeList(!showEmployeeList);
-    setShowNewUsers(false);
-  };
+  // const handleEmployeeClick = () => {
+  //   setShowEmployeeList(!showEmployeeList);
+  //   setShowNewUsers(false);
+  // };
 
   return (
     <div className='container-fluid'>
@@ -34,36 +41,40 @@ function User() {
             </a>
             <hr className='text-white d-none d-sm-block'></hr>
             <ul class='nav nav-pills flex-column mt-2 mt-sm-0' id='parentM'>
-              <li class='nav-item my-1 py-2 py-sm-0'>
+              {/* <li class='nav-item my-1 py-2 py-sm-0'>
                 <a href="#" class="nav-link text-white text-center text-sm-start" aria-current="page" onClick={handleLinkClick}>
                   <i className='bi bi-speedometer2'></i>
                   <span className='ms-2 d-none d-sm-inline'>Dashboard</span>
                 </a>
-              </li>
+              </li> */}
               <li class='nav-item my-1 py-2 py-sm-0'>
-                <a href="#submenu" class="nav-link text-white" data-bs-toggle="collapse" aria-current="page" onClick={handleNewClick}>
+                <a href="#submenu" class="nav-link text-white" data-bs-toggle="collapse" aria-current="page" >
                   <i className='bi bi-grid'></i>
-                  <span className='ms-2 d-none d-sm-inline'>Create Ticket</span>
+                  <span className='ms-2 d-none d-sm-inline'>Ticket</span>
                   <i className='bi bi-arrow-down-short ms-0 ms-sm-3'></i>
                 </a>
 
                 <ul class="nav collapse ms-2 flex-column" id='submenu' data-bs-parent="#parentM">
-                  {/* <li class="nav-item ">
-                    <a class="nav-link text-white" aria-current="page" onClick={handleLinkClick}>
-                      <span className="d-none d-sm-inline">new</span>
-                    </a>
-                  </li> */}
                   <li class="nav-item ">
-                    <a class="nav-link text-white " href="#" onClick={handleLinkClick}>
+                    <a class="nav-link text-white" aria-current="page" onClick={handleCreateTicket}>
+                      <span className="d-none d-sm-inline">create Ticket</span>
+                    </a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link text-white " href="#" onClick={() => {
+              setShowViewTickets(true);
+              setDisplayFaq(false)
+              setShowCreateTicket(false)
+            }}>
                       <span className="d-none d-sm-inline">Created Ticket</span>
                     </a>
                   </li>
                 </ul>
               </li>
               <li class='nav-item my-1 py-2 py-sm-0'>
-                <a href="#" class="nav-link text-white" aria-current="page" onClick={handleLinkClick}>
+                <a href="#" class="nav-link text-white" aria-current="page" onClick={handleFaqClick}>
                   <i className='bi bi-people'></i>
-                  <span className='ms-2 d-none d-sm-inline'>logout</span>
+                  <span className='ms-2 d-none d-sm-inline'>FAQ</span>
                 </a>
               </li>
             </ul>
@@ -75,16 +86,18 @@ function User() {
             </a>
             <div class="dropdown-menu" aria-labelledby="triggerId">
               <a class="dropdown-item" href="#">Profile</a>
-              <a class="dropdown-item" href="#">Setting action</a>
+              <a class="dropdown-item" href="#">Log out</a>
             </div>
           </div>
         </div>
         <div className='col-sm-10'>
           {/* Conditional rendering of NewUsers component */}
-          {showNewUsers && <Ticket />}
+          {showCreateTicket && <Ticket />}
+          {displayFaq && <DisplayFaq/>}
+          {showViewTickets && <ViewTickets/>}
 
-          {/* Conditional rendering of UserList component */}
-          {showEmployeeList && <UserList />}
+          {/* Conditional rendering of UserList component
+          {showEmployeeList && <UserList />} */}
         </div>
       </div>
     </div>

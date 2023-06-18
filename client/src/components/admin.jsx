@@ -5,10 +5,12 @@ import 'bootstrap/js/dist/collapse'
 import './admin.css'
 import NewUsers from "./newUser.jsx";
 import UserList from "./userList.jsx";
+import Department from "./department.jsx"
 
 function Admin() {
   const [showNewUsers, setShowNewUsers] = useState(false);
   const [showEmployeeList, setShowEmployeeList] = useState(false);
+  const[showDepartment , setShowDepartment]= useState(false)
 
   const handleNewClick = () => {
     setShowNewUsers(true);
@@ -20,9 +22,15 @@ function Admin() {
   };
 
   const handleEmployeeClick = () => {
-    setShowEmployeeList(!showEmployeeList);
+    setShowEmployeeList(true);
     setShowNewUsers(false);
+    
   };
+  const handleDepartmentLink = () =>{
+    setShowDepartment(true)
+    setShowEmployeeList(false);
+
+  }
 
   return (
     <div className='container-fluid'>
@@ -68,9 +76,9 @@ function Admin() {
                 </a>
               </li>
               <li class='nav-item my-1 py-2 py-sm-0'>
-                <a href="#" class="nav-link text-white" aria-current="page" onClick={handleLinkClick}>
+                <a href="#" class="nav-link text-white" aria-current="page" onClick={handleDepartmentLink}>
                   <i className='bi bi-people'></i>
-                  <span className='ms-2 d-none d-sm-inline'>logout</span>
+                  <span className='ms-2 d-none d-sm-inline'>department</span>
                 </a>
               </li>
             </ul>
@@ -92,6 +100,7 @@ function Admin() {
 
           {/* Conditional rendering of UserList component */}
           {showEmployeeList && <UserList />}
+          {showDepartment && <Department/>}
         </div>
       </div>
     </div>

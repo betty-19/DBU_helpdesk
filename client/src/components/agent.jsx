@@ -2,26 +2,17 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
+import AssignedTickets from "./assignedTickets";
 import './admin.css'
+import { useSelector } from 'react-redux';
 
 
-function Admin() {
-  const [showNewUsers, setShowNewUsers] = useState(false);
-  const [showEmployeeList, setShowEmployeeList] = useState(false);
+function Agent() {
 
-  const handleNewClick = () => {
-    setShowNewUsers(true);
-    setShowEmployeeList(false);
-  };
+const[showAssignedTickets, setShowAssignedTickets]=useState('false')
+const user = useSelector(state => state.user);
 
-  const handleLinkClick = () => {
-    setShowNewUsers(false);
-  };
 
-  const handleEmployeeClick = () => {
-    setShowEmployeeList(!showEmployeeList);
-    setShowNewUsers(false);
-  };
 
   return (
     <div className='container-fluid'>
@@ -29,14 +20,15 @@ function Admin() {
         <div className='col-auto col-sm-2 bg-dark d-flex flex-column justify-content-between min-vh-100'>
           <div className="mt-2">
             <a className='text-decoration-none ms-4 d-flex align-item-center text-white d-none d-sm-inline' role='button'>
-              <span className='f5-4'>Side Menu</span>
+            <h3 className="f5-4">Agent Page</h3>
+              <h6>Welcome, {user.userName}!</h6>
             </a>
             <hr className='text-white d-none d-sm-block'></hr>
             <ul class='nav nav-pills flex-column mt-2 mt-sm-0' id='parentM'>
               <li class='nav-item my-1 py-2 py-sm-0'>
-                <a href="#" class="nav-link text-white text-center text-sm-start" aria-current="page" onClick={handleLinkClick}>
+                <a href="#" class="nav-link text-white text-center text-sm-start" aria-current="page" onClick={()=>{setShowAssignedTickets(true)}}>
                   <i className='bi bi-speedometer2'></i>
-                  <span className='ms-2 d-none d-sm-inline'>Dashboard</span>
+                  <span className='ms-2 d-none d-sm-inline'>Assigned Ticket</span>
                 </a>
               </li>
               {/* <li class='nav-item my-1 py-2 py-sm-0'>
@@ -60,12 +52,12 @@ function Admin() {
                 </ul>
               </li> */}
 
-              <li class='nav-item my-1 py-2 py-sm-0'>
+              {/* <li class='nav-item my-1 py-2 py-sm-0'>
                  <a href="#" class="nav-link text-white" aria-current="page" onClick={handleEmployeeClick}>
                    <i className='bi bi-house'></i>
                    <span className='ms-2 d-none d-sm-inline'> employee</span>
                  </a>
-               </li>
+               </li> */}
               {/* <li class='nav-item my-1 py-2 py-sm-0'>
                 <a href="#" class="nav-link text-white" aria-current="page" onClick={handleLinkClick}>
                   <i className='bi bi-people'></i>
@@ -77,7 +69,7 @@ function Admin() {
           <div class="dropdown open">
             <a class="btn border-none  dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
-              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">Bety</span>
+              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">{user.userName}</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="triggerId">
               <a class="dropdown-item" href="#">Profile</a>
@@ -86,15 +78,11 @@ function Admin() {
           </div>
         </div>
         <div className='col-sm-10'>
-          {/* Conditional rendering of NewUsers component */}
-          {showNewUsers && <NewUsers />}
-
-          {/* Conditional rendering of UserList component */}
-          {showEmployeeList && <UserList />}
+      {showAssignedTickets && <AssignedTickets/>}
         </div>
       </div>
     </div>
   );
 }
 
-export default Admin;
+export default Agent;

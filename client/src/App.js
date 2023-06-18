@@ -6,12 +6,19 @@ import SignUp from "./components/SignUp";
 import User from "./components/user";
 import Admin from './components/admin';
 import NewUser from './components/newUser'
-import Manager from './components/manager'
+import Manager from './components/manager';
 import CreateTicket from './components/createTicket'
 import OpenTickets from './components/openTickets';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './components/store';
+import DisplayFaq from './components/displayFaq';
+import Department from './components/department';
+import ViewTickets from './components/viewTickets';
+import Agent from './components/agent';
+import Chat from './components/chat'
+import AssignedTickets from './components/assignedTickets';
+import ManageFaq from './components/manageFaq';
 
 
 
@@ -30,6 +37,13 @@ const App = () => {
             <Route path="/manager" element={<Manager />} />
             <Route path="/createTicket" element={<CreateTicket />} />
             <Route path="/openTicket" element={<OpenTickets />} />
+            <Route path="/displayFaq" element={<DisplayFaq/>}/>
+            <Route path ="/department" element={<Department/>}/>
+            <Route path="/viewTickets" element={<ViewTickets/>}/>
+            <Route path ="/agent" element={<Agent/>}/>
+            <Route path ="/chat" element={<Chat/>}/>
+            <Route path= "/assignedTickets" element={<AssignedTickets/>}/>
+            <Route path = "/manageFaq" element = {<ManageFaq/>}/>
           </Routes>
         </Router>
       </PersistGate>

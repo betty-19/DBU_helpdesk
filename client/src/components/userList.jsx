@@ -13,7 +13,7 @@ function UserList() {
     try {
       let url;
       if (selectedRole === "User") {
-        url = 'http://localhost:3003/api/newUser'; // Replace with your API endpoint for user data
+        url = 'http://localhost:3003/api/User'; // Replace with your API endpoint for user data
       } else if (selectedRole === "Manager") {
         url = 'http://localhost:3003/api/manager'; // Replace with your API endpoint for manager data
       } else if (selectedRole === "Agent") {

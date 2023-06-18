@@ -5,6 +5,7 @@ import 'bootstrap/js/dist/collapse';
 import './admin.css';
 import OpenTickets from "./openTickets.jsx";
 import { useSelector } from 'react-redux';
+import ManageFaq from './manageFaq'
 
 function Manager() {
   const [showOpenTicket, setShowOpenTicket] = useState(false);
@@ -22,21 +23,21 @@ function Manager() {
     setShowFAQ(false); // Hide the FAQ page
   };
 
-  useEffect(() => {
-    fetch('http://localhost:4000/api/categories')
-      .then((response) => response.json())
-      .then((data) => {
-        setCategories(data.categories);
-      })
-      .catch((error) => {
-        console.error('Error fetching categories: ', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:4000/api/categories')
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setCategories(data.categories);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching categories: ', error);
+  //     });
+  // }, []);
 
   const handleFAQ = () => {
     console.log("FAQ clicked");
     setShowFAQ(true);
-    setShowOpenTicket(false); // Hide the open ticket page
+    //setShowOpenTicket(false); // Hide the open ticket page
   };
 
   // const handleSubmitFAQ = (event) => {
@@ -44,71 +45,72 @@ function Manager() {
   //   // Handle form submission logic here
   // };
 
-  const handleFormatting = (command, value) => {
-    // Check if there is selected text
-    const selectedText = window.getSelection().toString();
-    if (selectedText.length > 0) {
-      // Execute the specified command with the value
-      document.execCommand(command, false, value);
-    }
-  };
+//   const handleFormatting = (command, value) => {
+//     // Check if there is selected text
+//     const selectedText = window.getSelection().toString();
+//     if (selectedText.length > 0) {
+//       // Execute the specified command with the value
+//       document.execCommand(command, false, value);
+//     }
+//   };
 
-  const handleIncreaseFontSize = () => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      for (let i = 0; i < selection.rangeCount; i++) {
-        const range = selection.getRangeAt(i);
-        const span = document.createElement('span');
-        span.style.fontSize = 'larger';
-        range.surroundContents(span);
-      }
-    }
-  };
+//   const handleIncreaseFontSize = () => {
+//     const selection = window.getSelection();
+//     if (selection.rangeCount > 0) {
+//       for (let i = 0; i < selection.rangeCount; i++) {
+//         const range = selection.getRangeAt(i);
+//         const span = document.createElement('span');
+//         span.style.fontSize = 'larger';
+//         range.surroundContents(span);
+//       }
+//     }
+//   };
   
 
-  const handleDecreaseFontSize = () => {
-    const selection = window.getSelection();
-    if (selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      const span = document.createElement('span');
-      span.style.fontSize = 'smaller';
-      range.surroundContents(span);
-    }
-    // ...Existing code...
+//   const handleDecreaseFontSize = () => {
+//     const selection = window.getSelection();
+//     if (selection.rangeCount > 0) {
+//       const range = selection.getRangeAt(0);
+//       const span = document.createElement('span');
+//       span.style.fontSize = 'smaller';
+//       range.surroundContents(span);
+//     }
+//     // ...Existing code...
 
-// ...Existing code...
+// // ...Existing code...
 
-  };
-  const handleSubmitFAQ = () => {
-    const question = document.getElementById('question').value;
-    const answer = textRef.current.innerHTML;
-    const category = document.getElementById('category').value;
+//   };
+  // const handleSubmitFAQ = () => {
+  //   const question = document.getElementById('question').value;
+  //   const answer = textRef.current.innerHTML;
+  //   // const category = document.getElementById('category').value;
+  //   const category = user.department;
   
-    const faqData = {
-      question,
-      answer,
-      category,
-    };
+  //   const faqData = {
+  //     question,
+  //     answer,
+  //     category,
+  //   };
   
-    fetch('http://localhost:4000/api/faq', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(faqData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('FAQ stored successfully:', data);
-        // Reset the form values
-        document.getElementById('question').value = '';
-        textRef.current.innerHTML = '';
-        setCategory('');
-      })
-      .catch(error => {
-        console.error('Error storing FAQ:', error);
-      });
-  };
+  //   fetch('http://localhost:4000/api/faq', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(faqData),
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log('FAQ stored successfully:', data);
+  //       // Reset the form values
+  //       document.getElementById('question').value = '';
+  //       textRef.current.innerHTML = '';
+  //       setCategory('');
+  //     })
+  //     .catch(error => {
+  //       console.error('Error storing FAQ:', error);
+  //     });
+  // };
   
   return (
     <div className="container-fluid">
@@ -151,7 +153,7 @@ function Manager() {
               <li className="nav-item my-1 py-2 py-sm-0">
                 <a href="#" className="nav-link text-white" aria-current="page" onClick={handleFAQ}>
                   <i className="bi bi-house" />
-                  <span className="ms-2 d-none d-sm-inline">FAQ</span>
+                  <span className="ms-2 d-none d-sm-inline">Manage FAQ</span>
                 </a>
               </li>
               {/* <li className="nav-item my-1 py-2 py-sm-0">
@@ -174,19 +176,20 @@ function Manager() {
         </div>
         {/* Display AssignTicket or FAQ component */}
         {showOpenTicket && <OpenTickets />}
-        {showFAQ && (
+        {showFAQ && <ManageFaq/>}
+        {/* {showFAQ && (
           <div className="col">
             <h1>Create FAQ</h1>
             <form onSubmit={handleSubmitFAQ}>
               <div className="mb-3">
                 <label htmlFor="question" className="form-label">Question</label>
                 <textarea className="form-control" id="question" rows="3" required></textarea>
-              </div>
+              </div> */}
               {/* <div className="mb-3">
                 <label htmlFor="answer" className="form-label">Answer</label>
                 <textarea className="form-control" id="answer" rows="3" required></textarea>
               </div> */}
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label htmlFor="message" className="form-label">Answer</label>
                 <div
                   className="form-control message-input"
@@ -209,23 +212,22 @@ function Manager() {
                     <option value="black">Black</option>
                   </select>
                 </div>
-              </div>
-              <div className="mb-3">
+              </div> */}
+              {/* <div className="mb-3">
                 <label htmlFor="category" className="form-label">Category</label>
                 <select className="form-select" id="category" value={category} onChange={(e) => setCategory(e.target.value)} required>
-                  {/* Render options based on fetched categories */}
                   <option value="">Select a category</option>
                   {categories.map((category) => (
                     <option key={category}>{category}</option>
                   ))}
                 </select>
-              </div>
+              </div> */}
              
-              <button type="button" className="btn btn-primary" onClick={handleSubmitFAQ}>Add</button>
+              {/* <button type="button" className="btn btn-primary" onClick={handleSubmitFAQ}>Add</button>
 
             </form>
-          </div>
-        )}
+          </div> */}
+        {/* )} */}
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ const HomePage = () => {
               <ul className="footer-links list-unstyled">
                 <li><Link to="/manager">About</Link></li>
                 <li><Link to="/user">Contact</Link></li>
-                <li><Link to="/privacy">Privacy Policy</Link></li>
+                <li><Link to="/agent">Privacy Policy</Link></li>
               </ul>
             </div>
           </footer>
