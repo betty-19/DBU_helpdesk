@@ -15,6 +15,7 @@ function Admin() {
   const handleNewClick = () => {
     setShowNewUsers(true);
     setShowEmployeeList(false);
+    setShowDepartment(false)
   };
 
   const handleLinkClick = () => {
@@ -24,11 +25,13 @@ function Admin() {
   const handleEmployeeClick = () => {
     setShowEmployeeList(true);
     setShowNewUsers(false);
+    setShowDepartment(false)
     
   };
   const handleDepartmentLink = () =>{
     setShowDepartment(true)
     setShowEmployeeList(false);
+    setShowNewUsers(false)
 
   }
 

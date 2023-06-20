@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import './Login.css';
 import axios from 'axios';
 
 const Login = () => {
   const [username, setUsername] = useState('');
+  const[user, setUser] = useState([]);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const location = useLocation();
+  //const location = useLocation();
+  const[showPendingPage, setShowPendingPage] = useState(false)
+  
 
   
 
@@ -33,37 +37,46 @@ const Login = () => {
     }
      
     axios.post('http://localhost:5000/api/login', { username, password })
-  .then(async (response) => {
-    console.log(response)
-    // Authentication successful
-    const user = response.data;
-  console.log(user[0].role)
-    // Dispatch the LOGIN action with the user information
-    dispatch({ type: 'LOGIN', payload: user });
-    const role = (user[0].role).toLowerCase();
-    // Redirect to the appropriate page based on the user's role
-    if (role === 'admin') {
-      nav('/admin');
-    } else if (role === 'manager') {
-      nav('/manager');
-    } else if (role === 'agent') {
-      nav('/agent');
-    } else if (role === 'user') {
-      nav('/user');
-    }
-    setError('you have assigned with incorrect roll');
-  })
-  .catch((error) => {
-    // Authentication failed
-    setError('Invalid username or password');
-  });
-
-
+    .then(async (response) => {
+      console.log(response)
   
+      // Authentication successful
+      const user = response.data;
+      console.log(user.role)
+      dispatch({ type: 'LOGIN', payload: user });
+  
+      // Dispatch the LOGIN action with the user information
+      
+  
+      const role = user.role.toLowerCase();
+      const status = user.status;
+  
+      // Redirect to the appropriate page based on the user's role and status
+      if (role === 'admin' && status ==='active') {
+        nav('/admin');
+      } else if (role === 'manager' && status ==='active') {
+        nav('/manager');
+      } else if (role === 'agent' && status ==='active') {
+        nav('/agent');
+      } else if (role === 'user' && status ==='active') {
+        nav('/user');
+      }
+      else if (status ==='waiting'){
+        setShowPendingPage(true)
+      }
 
+      setError('you have assigned with incorrect role');
+    })
+    .catch((error) => {
+      // Authentication failed
+      setError('Invalid username or password');
+    });
+  
    
-
-   
+  };
+  const handleLogout = () => {
+    dispatch({ type: 'LOGOUT' });
+    // Add code to clear any user-related data from local storage or cookies if necessary
   };
 
   const handleResetPassword = () => {
@@ -106,8 +119,31 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {showPendingPage && (
+    <div className="modalBackground">
+  <div className="modalContainer">
+  <div className="titleCloseBtn">
+          <button
+            onClick={() => {
+              setShowPendingPage(false);
+            }}
+          >
+            X
+          </button>
+        </div>
+  <div className="title">
+  <h1>Wait for approval of your Account</h1>
+        </div>
+    <div className="body">
+    
+    <h4>Until your Account approved by admin, there is no any page that display to you</h4>
+    </div>
+  </div>
+</div>
+  )}
     </div>
   );
+  
 };
 
 export default Login;

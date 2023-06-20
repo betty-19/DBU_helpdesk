@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios'
 import { useSelector } from 'react-redux';
 
+
 import './User.css'
 
 const Ticket = () => {
@@ -14,7 +15,7 @@ const Ticket = () => {
   const [bothValid , setBothValid] = useState('');
   const [category, setCategory] = useState(''); 
   const [categories, setCategories] = useState([]);
-  const creatorId = useSelector((state) => state.user.empId);
+  const creatorId = useSelector((state) => state.user.employeeId);
   const user = useSelector(state => state.user);
 
   useEffect(() => {
@@ -94,7 +95,7 @@ const Ticket = () => {
       { title,
         chat: message,
         category,
-        creator_id: 2,
+        creator_id: creatorId ,
          })
          .then((response) => {
           if (response && response.data) {
@@ -121,7 +122,7 @@ const Ticket = () => {
       {/* Page content */}
       <main className="main-content">
         <div className="container">
-        <h1>Welcome, {user.userName}!</h1>
+        <h1>Welcome, {user.username}!</h1>
           <h2>Create Ticket</h2>
           <div className="mb-3">
             <label htmlFor="title" className="form-label">Title</label>

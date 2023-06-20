@@ -6,10 +6,12 @@ import './admin.css'
 import Ticket from "./createTicket.jsx";
 import DisplayFaq from "./displayFaq";
 import ViewTickets from "./viewTickets"
+import { useSelector } from 'react-redux';
 function User() {
   const [showCreateTicket, setShowCreateTicket] = useState(false);
   const [displayFaq, setDisplayFaq] = useState(false);
-  const [showViewTickets , setShowViewTickets] = useState(false)
+  const [showViewTickets , setShowViewTickets] = useState(false);
+  const user = useSelector(state => state.user);
 
   const handleCreateTicket = () => {
     setShowCreateTicket(true);
@@ -82,7 +84,7 @@ function User() {
           <div class="dropdown open">
             <a class="btn border-none  dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
-              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">Bety</span>
+              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">{user.employeeId}</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="triggerId">
               <a class="dropdown-item" href="#">Profile</a>

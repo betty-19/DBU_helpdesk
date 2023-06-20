@@ -12,8 +12,8 @@ const Signup = () => {
   const [birthDate, setBirthDate] = useState('');
   const [employeeId, setEmployeeId] = useState(''); 
   const [favoriteColor, setFavoriteColor] = useState('');
-  const [temporaryUsername, setTemporaryUsername] = useState('');
-  const [temporaryPassword, setTemporaryPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   //const navigate = useNavigate();
 
@@ -122,8 +122,8 @@ const Signup = () => {
       console.log('Signup clicked');
       const username = lastName;
       const password = phoneNumber;
-      setTemporaryUsername('Temporary Username: '+employeeId + '@helpdesk.dbu');
-      setTemporaryPassword('Temporary Password: '+'#dbu1234' + lastName);
+      setUsername('Username: '+employeeId + '@helpdesk.dbu');
+      setPassword('Password: '+'#dbu1234' + lastName);
   
       axios
         .post('http://localhost:5005/signup', {
@@ -142,8 +142,8 @@ const Signup = () => {
           // Handle successful signup, e.g., redirect to a success page
         })
         .catch((error) => {
-          setTemporaryUsername('Error during signup: ' + error.response.data.error);
-          setTemporaryPassword('');
+          setUsername('Error during signup: ' + error.response.data.error);
+          setPassword('');
           console.error('Error during signup: ', error.response.data);
           // Handle error during signup
         });
@@ -245,10 +245,10 @@ const Signup = () => {
             {errors.favoriteColor && <p className="error">{errors.favoriteColor}</p>}
           </div>
            {/* Temporary username and password */}
-           {temporaryUsername && (
+           {username && (
             <div>
-              <p>{temporaryUsername}</p>
-              <p>{temporaryPassword}</p>
+              <p>{username}</p>
+              <p>{password}</p>
             </div>
           )}
 

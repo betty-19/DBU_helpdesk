@@ -225,6 +225,7 @@ function Department() {
         // </div>
         <div className="modalBackground">
       <div className="modalContainer">
+        
         <div className="title">
         <h3>Add Department</h3>
         </div>

@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
   host: 'localhost',      // Replace with your MySQL host
   user: 'root',           // Replace with your MySQL username
   password: "",           // Replace with your MySQL password
-  database: 'helpdesk'    // Replace with your MySQL database name
+  database: 'helpdesk2'    // Replace with your MySQL database name
 });
 
 // Establish the database connection
@@ -26,7 +26,7 @@ connection.connect((err) => {
 
 // Define a route to fetch the new users
 app.get('/api/newuser', (req, res) => {
-  const query = 'SELECT firstName, empId,lastName,officeBlock FROM register WHERE new = "yes"';
+  const query = 'SELECT firstName, employeeId,lastName,officeBlock FROM register WHERE new = "yes"';
 
   // Execute the query
   connection.query(query, (error, results) => {

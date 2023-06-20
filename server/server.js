@@ -2,7 +2,8 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const Dbu_employees_db_con = require('./Dbu_db.js');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
+
 
 const app = express();
 const port = 5005;
@@ -13,8 +14,8 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'root',
-  database: 'helpdesk',
+  //password: 'root',
+  database: 'helpdesk2',
 });
 
 // Connect to the MySQL database
@@ -63,13 +64,16 @@ app.post('/signup', async (req, res) => {
               } 
 
               // Insert into account table.
-              const query = 'INSERT INTO account(username, password, role, department, employeeId, status) VALUES(?,?,?,?,?,?)';
+              //const query = 'INSERT INTO account(username, password, role, department, employeeId, status) VALUES(?,?,?,?,?,?)';
+              const query = 'INSERT INTO account(username, password, employeeId) VALUES(?,?,?)';
               const password = '#dbu1234' + lastName; // this is the best way to assign a different unique password.
-              const password_hash = await bcrypt.hash(password, 10); // advanced encryption system for password
-              const role = 'agent'; // employee[0].role;
-              const department = null; //employee[0].department;
-              const defaultStatus = 'waiting'; 
-              const account_atributes = [username, password_hash, role, department, employeeId, defaultStatus];
+              const password_hash = await bcrypt.hash(password, 10);
+ // advanced encryption system for password
+            //  const role = 'agent'; // employee[0].role;
+             // const department = null; //employee[0].department;
+            //  const defaultStatus = 'waiting'; 
+           //   const account_atributes = [username, password_hash, role, department, employeeId, defaultStatus];
+              const account_atributes = [username, password_hash, employeeId];
               
               connection.query(query, account_atributes, (err, result) => {
                   if (err) {
@@ -80,14 +84,16 @@ app.post('/signup', async (req, res) => {
                   
                   // console.log("inserted Id: ",result.insertId)
                   const accountId = parseInt(result.insertId)  
-                  const isApproved = 'no';
-                  const newAccount = 'yes';
-                  const state = 'pending';
-                  const registerValues = [firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, isApproved, newAccount, state,  employeeId, accountId];
+                  // const isApproved = 'no';
+                  // const newAccount = 'yes';
+                  // const state = 'pending';
+                  // const registerValues = [firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, isApproved, newAccount, state,  employeeId, accountId];
+                  const registerValues = [firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor , employeeId, accountId];
                   
                   // console.log(firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor, isApproved, newAccount, state,  employeeId, accountId)
                   // Insert into register table
-                  const registerQuery = 'INSERT INTO register (firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, approve, new, state, employeeId, accountId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                  // const registerQuery = 'INSERT INTO register (firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, approve, new, state, employeeId, accountId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                  const registerQuery = 'INSERT INTO register (firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, employeeId, accountId) VALUES (?,?,?,?,?,?,?,?,?,?)';
                   connection.query(registerQuery, registerValues, (err, result) => {
                     if (err) {
                       console.error('Error while inserting: ', err);

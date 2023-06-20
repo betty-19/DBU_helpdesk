@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     host: 'localhost',      // Replace with your MySQL host
     user: 'root',           // Replace with your MySQL username
     password: "",   // Replace with your MySQL password
-    database: 'helpdesk'     // Replace with your MySQL database name
+    database: 'helpdesk2'     // Replace with your MySQL database name
   });
 
 // Establish the database connection

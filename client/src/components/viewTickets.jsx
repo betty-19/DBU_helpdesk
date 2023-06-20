@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const ViewTicket = () => {
   const [tickets, setTickets] = useState([]);
-  const empId = useSelector((state) => state.user.empId);
+  const empId = useSelector((state) => state.user.employeeId);
 
   useEffect(() => {
     fetchTickets();
@@ -55,10 +55,10 @@ const ViewTicket = () => {
               <td>{ticket.status}</td>
               <td>{ticket.category}</td>
               <td>{ticket.assignedTo}</td>
-              <td>{ticket.date}</td>
+              <td>{ticket.createdDate}</td>
               <td>
               <button
-                  onClick={() => chat(ticket.id, ticket.assignedTo, ticket.empId)}
+                  onClick={() => chat(ticket.id, ticket.assignedTo, ticket.createdBy)}
                   disabled={isChatDisabled(ticket.assignedTo, ticket.status)}
                 >
                   Chat

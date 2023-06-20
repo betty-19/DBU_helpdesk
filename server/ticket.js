@@ -11,8 +11,8 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',      
   user: 'root',           
-  password: "root",   
-  database: 'helpdesk'     
+ // password: "root",   
+  database: 'helpdesk2'     
 });
 
 // Connect to the MySQL database
@@ -28,29 +28,42 @@ connection.connect((err) => {
 app.post('/ticket', async (req, res) => {
   // Get the signup data from the request body
   const { title, chat, category, creator_id } = req.body;
-
-  // Perform validation
-//   if (!firstName || !lastName || !officeBlock || !phoneNumber || !favoriteNumber || !birthDate || !favoriteColor) {
-//     res.status(400).json({ error: 'Please enter all fields' });
-//     return;
-//   }
+  const createdDate = new Date(); // Get the current date and time
 
   // Insert the signup data into the database
-  const sql = 'INSERT INTO ticket (title, chat, category,createdBy) VALUES (?, ?, ? , ?)';
-  const values = [title, chat, category, creator_id];
+  const sql = 'INSERT INTO ticket2 (title, description, category, createdBy, createdDate) VALUES (?, ?, ?, ?, ?)';
+  const values = [title, chat, category, creator_id, createdDate];
 
-          connection.query(sql, values, (err, result) => {
-          if (err) {
-            console.error('Error inserting data into the database:', err);
-            res.status(500).json({ error: 'An error occurred while creating ticket',
-                                    hint: 'check that you insert valid creater id...' 
-                                  });
-            return;
-          }
-          console.log('Ticket data inserted successfully');
-          res.status(200).json({ message: 'ticket successful' });
-        }); 
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting data into the database:', err);
+      res.status(500).json({ error: 'An error occurred while creating ticket', hint: 'check that you insert valid creator ID...' });
+      return;
+    }
+    console.log('Ticket data inserted successfully');
+    res.status(200).json({ message: 'Ticket created successfully' });
+  });
 });
+app.get('/api/faq', async (req, res) => {
+  try {
+    const { category } = req.query;
+    const sql = 'SELECT * FROM faq WHERE category = ?';
+    connection.query(sql, [category], (err, result) => {
+      if (err) {
+        console.error('Error fetching FAQs from the database:', err);
+        res.status(500).json({ error: 'An error occurred while fetching FAQs' });
+        return;
+      }
+      console.log('FAQs fetched successfully');
+      res.status(200).json(result);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching FAQs' });
+  }
+});
+
+
  
 
 // 5
@@ -75,29 +88,65 @@ app.get('/api/getTickets', (req, res) => {
 });
 
 // 6
-app.get('/api/getTicketByCreaterId', (req, res) => {
-  const createdBy = req.query.createdBy;
+// app.get('/api/getTicketByCreaterId', (req, res) => {
+//   const createdBy = req.query.createdBy;
 
-  // this query will fetch all information of a single user(creater) from ticket and account based on the the creater id that found at both account and ticket table.
-  const query = 'SELECT * FROM ticket as t, account as a WHERE t.createdBy = ? AND t.createdBy = a.id';
-  connection.query(query, createdBy, async (error, result) => {
-        if (error) { 
-          console.log(error);
-          res.status(500).json({ error: 'An error occurred while finding ticket iformation.' });
-          return;
-        }else {
-          // console.log(result)
-          if (result.length>0){ // means there is data that fulfied the requirement. 
+//   // this query will fetch all information of a single user(creater) from ticket and account based on the the creater id that found at both account and ticket table.
+//   const query = 'SELECT * FROM ticket as t, account as a WHERE t.createdBy = ? AND t.createdBy = a.id';
+//   connection.query(query, createdBy, async (error, result) => {
+//         if (error) { 
+//           console.log(error);
+//           res.status(500).json({ error: 'An error occurred while finding ticket iformation.' });
+//           return;
+//         }else {
+//           // console.log(result)
+//           if (result.length>0){ // means there is data that fulfied the requirement. 
 
-            // you can delete other unwanted info following this command.
-            const wantedResult = result.map(({ password, createdBy, ...rest }) => rest);
+//             // you can delete other unwanted info following this command.
+//             const wantedResult = result.map(({ password, createdBy, ...rest }) => rest);
            
-            res.status(200).json(wantedResult);
-          } else {
-          res.status(500).json({ message: 'no data identified by the given id.' });
-          }
-  }});
+//             res.status(200).json(wantedResult);
+//           } else {
+//           res.status(500).json({ message: 'no data identified by the given id.' });
+//           }
+//   }});
+// });
+app.get('/api/getTicketByCreaterId', async (req, res) => {
+  try {
+    const sql = `
+      SELECT t.*, r.firstName, r.officeBlock
+      FROM ticket2 AS t
+      JOIN register AS r ON t.createdBy = r.id
+    `;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error fetching data from the database:', err);
+        res.status(500).json({ error: 'An error occurred while fetching tickets' });
+        return;
+      }
+      console.log('Tickets fetched successfully');
+      res.status(200).json(result);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching tickets' });
+  }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 7
 app.get('/api/getAllAgentInfo', (req, res) => { 

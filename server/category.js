@@ -11,8 +11,8 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',      // Replace with your MySQL host
   user: 'root',           // Replace with your MySQL username
-  password: 'root',           // Replace with your MySQL password
-  database: 'helpdesk'    // Replace with your MySQL database name
+ // password: 'root',           // Replace with your MySQL password
+  database: 'helpdesk2'    // Replace with your MySQL database name
 });
 
 // Establish the database connection
@@ -133,4 +133,22 @@ app.get('/', (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+app.get('/api/faq', async (req, res) => {
+  try {
+    const { category } = req.query;
+    const sql = 'SELECT * FROM faq WHERE category = ?';
+    connection.query(sql, [category], (err, result) => {
+      if (err) {
+        console.error('Error fetching FAQs from the database:', err);
+        res.status(500).json({ error: 'An error occurred while fetching FAQs' });
+        return;
+      }
+      console.log('FAQs fetched successfully');
+      res.status(200).json(result);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching FAQs' });
+  }
 });
