@@ -38,7 +38,7 @@ app.get('/api/newuser', (req, res) => {
         firstName: row.firstName,
         lastName: row.lastName,
         officeBlock:row.officeBlock,
-        empId: row.empId,
+        employeeId: row.employeeId,
       }));
       res.json({ users });
     }

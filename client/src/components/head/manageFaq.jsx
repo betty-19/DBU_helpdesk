@@ -18,7 +18,7 @@ function ManageFaq() {
 
   const fetchFAQsByDepartment = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/faqs?category=${userDepartment}`);
+      const response = await fetch(`http://localhost:8000/head/viewFaqs?category=${userDepartment}`);
       const data = await response.json();
       setFaqList(data);
     } catch (error) {
@@ -28,6 +28,7 @@ function ManageFaq() {
 
   const handleAddFAQ = () => {
     setShowFAQ(true);
+    
   };
 
   const handleSubmitFAQ = async (e) => {
@@ -44,14 +45,14 @@ function ManageFaq() {
     };
   
     try {
-      const response = await fetch('http://localhost:4000/api/faq', {
+      const response = await fetch('http://localhost:8000/head/addFAQ', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(faqData),
       });
-  
+  console.log(faqData);
       if (response.ok) {
         console.log('FAQ stored successfully');
         // Reset the form values
@@ -61,7 +62,7 @@ function ManageFaq() {
         // Fetch FAQs again to update the list
         fetchFAQsByDepartment();
       } else {
-        console.error('Error storing FAQ:', response.statusText);
+        console.error('Error ---storing FAQ:', response.statusText);
       }
     } catch (error) {
       console.error('Error storing FAQ:', error);
@@ -101,11 +102,11 @@ function ManageFaq() {
         }}
 
   return (
-    <div>
+    <div className='m-5'>
       <h1>Manage FAQ</h1>
-      <button onClick={handleAddFAQ}>Add FAQ</button>
 
-      {showFAQ && (
+
+      {showFAQ ? (
         <div className="col">
           <h1>Create FAQ</h1>
           <form onSubmit={handleSubmitFAQ}>
@@ -138,16 +139,21 @@ function ManageFaq() {
               </div>
             </div>
             <button type="button" className="btn btn-primary" onClick={handleSubmitFAQ}>Add</button>
+            <button type="button" className="btn btn-primary" onClick={() => {
+              //setCancelFaq(true);
+              setShowFAQ(false);
+              //setShowCreateTicket(false)
+            }}>Cancel</button>
           </form>
         </div>
-      )}
-
-      <table className='table'>
+      ):
+      (   <>
+      <button onClick={handleAddFAQ}>Add FAQ</button>
+         <table className='table'>
         <thead>
           <tr>
             <th>Question</th>
             <th>Answer</th>
-            <th>Category</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -156,7 +162,6 @@ function ManageFaq() {
             <tr key={faq.id}>
               <td>{faq.question}</td>
               <td>{faq.answer}</td>
-              <td>{faq.category}</td>
               <td>
                 <button>Delete</button>
                 <button>Edit</button>
@@ -164,7 +169,9 @@ function ManageFaq() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table></> )}
+
+   
     </div>
   );
 }

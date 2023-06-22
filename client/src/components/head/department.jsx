@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './modal.css'
+import '../../assets/css/modal.css'
 
 function Department() {
   const [departments, setDepartments] = useState([]);

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux';
 
 
-import './User.css'
+import '../../assets/css/User.css'
 
 const Ticket = () => {
   const [message, setMessage] = useState('');
@@ -91,7 +91,7 @@ const Ticket = () => {
       // Submit the form or perform further actions
       // ...
       // Example: Submit the form using axios
-      axios.post('http://localhost:5002/ticket',
+      axios.post('http://localhost:8000/user/createTicket',
       { title,
         chat: message,
         category,

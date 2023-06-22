@@ -2,39 +2,41 @@ import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/collapse';
-import './admin.css';
-import OpenTickets from "./openTickets.jsx";
+import '../../assets/css/admin.css';
+import OpenTickets from "./openTickets";
+//import CreateTicket from './createTicket'
 import { useSelector } from 'react-redux';
 import ManageFaq from './manageFaq'
+import ViewAssignedTickets from "./viewAssignedTickets";
 
 function Manager() {
   const [showOpenTicket, setShowOpenTicket] = useState(false);
   const [showFAQ, setShowFAQ] = useState(false);
   const user = useSelector(state => state.user);
-  const [categoryError, setCategoryError] = useState('');
+  const [viewAssignedTicket, setViewAssignedTicket] = useState(false);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
   const textRef = useRef(null);
   const [message, setMessage] = useState('');
   
   const handleOpenTicket = () => {
+    setViewAssignedTicket(false)
     console.log("New Ticket clicked");
     setShowOpenTicket(true);
     setShowFAQ(false); // Hide the FAQ page
   };
 
-  // useEffect(() => {
-  //   fetch('http://localhost:4000/api/categories')
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCategories(data.categories);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching categories: ', error);
-  //     });
-  // }, []);
+  const viewAssignedTickets = () => {
+    console.log("New Ticket clicked");
+    setViewAssignedTicket(true)
+    setShowOpenTicket(false);
+    setShowFAQ(false); // Hide the FAQ page
+  };
+
 
   const handleFAQ = () => {
+    setShowOpenTicket(false);
+    setViewAssignedTicket(false)
     console.log("FAQ clicked");
     setShowFAQ(true);
     //setShowOpenTicket(false); // Hide the open ticket page
@@ -121,7 +123,7 @@ function Manager() {
           <div className="mt-2">
             <a className="text-decoration-none ms-4 d-flex align-item-center text-white d-none d-sm-inline" role="button">
               <h3 className="f5-4">Manager Page</h3>
-              <h6>Welcome, {user.userName}!</h6>
+              <h6>Welcome, {user.username}!</h6>
             </a>
             <hr className="text-white d-none d-sm-block" />
             <ul className="nav nav-pills flex-column mt-2 mt-sm-0" id="parentM">
@@ -144,7 +146,7 @@ function Manager() {
                     </a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link text-white" href="#">
+                    <a className="nav-link text-white"  onClick={viewAssignedTickets}>
                       <span className="d-none d-sm-inline">Assigned Ticket</span>
                     </a>
                   </li>
@@ -166,7 +168,7 @@ function Manager() {
           </div>
           <div className="dropdown open">
             <a className="btn border-none  dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="bi bi-person f5-4" /><span className="fs-5 ms-3 d-none d-sm-inline">{user.userName}</span>
+              <i className="bi bi-person f5-4" /><span className="fs-5 ms-3 d-none d-sm-inline">{user.employeeId}</span>
             </a>
             <div className="dropdown-menu" aria-labelledby="triggerId">
               <a className="dropdown-item" href="#">Profile</a>
@@ -174,9 +176,15 @@ function Manager() {
             </div>
           </div>
         </div>
-        {/* Display AssignTicket or FAQ component */}
+        <div className='col-sm-10'>
+             {console.log(showOpenTicket)}
         {showOpenTicket && <OpenTickets />}
         {showFAQ && <ManageFaq/>}
+        {viewAssignedTicket && <ViewAssignedTickets/>}
+        </div>
+     
+
+
         {/* {showFAQ && (
           <div className="col">
             <h1>Create FAQ</h1>

@@ -134,7 +134,7 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-app.get('/api/faq', async (req, res) => {
+app.get('/api/faqs', async (req, res) => {
   try {
     const { category } = req.query;
     const sql = 'SELECT * FROM faq WHERE category = ?';

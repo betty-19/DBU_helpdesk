@@ -3,22 +3,22 @@ import { BrowserRouter as Router,Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import Login from './components/Login';
 import SignUp from "./components/SignUp";
-import User from "./components/user";
-import Admin from './components/admin';
-import NewUser from './components/newUser'
-import Manager from './components/manager';
-import CreateTicket from './components/createTicket'
-import OpenTickets from './components/openTickets';
+import User from "./components/user/user";
+import Admin from './components/admin/admin';
+import NewUser from './components/admin/newUser'
+import Manager from './components/head/manager';
+import CreateTicket from './components/user/createTicket'
+import OpenTickets from './components/head/openTickets';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './components/store';
-import DisplayFaq from './components/displayFaq';
-import Department from './components/department';
-import ViewTickets from './components/viewTickets';
-import Agent from './components/agent';
+import DisplayFaq from './components/user/displayFaq';
+import Department from './components/head/department';
+import ViewTickets from './components/user/viewTickets';
+import Agent from './components/agent/agent';
 import Chat from './components/chat'
-import AssignedTickets from './components/assignedTickets';
-import ManageFaq from './components/manageFaq';
+import AssignedTickets from './components/agent/assignedTickets';
+import ManageFaq from './components/head/manageFaq';
 
 
 
@@ -44,6 +44,7 @@ const App = () => {
             <Route path ="/chat" element={<Chat/>}/>
             <Route path= "/assignedTickets" element={<AssignedTickets/>}/>
             <Route path = "/manageFaq" element = {<ManageFaq/>}/>
+           
           </Routes>
         </Router>
       </PersistGate>

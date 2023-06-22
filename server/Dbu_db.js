@@ -4,7 +4,7 @@ const Dbu_employees_db = mysql.createConnection({
     host: 'localhost',      
     user: 'root',            
    // password: "root",   // check your db password. 
-    database: 'dbu_employees_db'   
+    database: 'hrms'   
   });
 
 module.exports = Dbu_employees_db;

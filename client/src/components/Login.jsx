@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import './Login.css';
+import '../assets/css/Login.css';
 import axios from 'axios';
 
 const Login = () => {
@@ -52,6 +52,9 @@ const Login = () => {
       const status = user.status;
   
       // Redirect to the appropriate page based on the user's role and status
+      if (status ==='waiting'){
+        setShowPendingPage(true)
+      } else
       if (role === 'admin' && status ==='active') {
         nav('/admin');
       } else if (role === 'manager' && status ==='active') {
@@ -61,7 +64,7 @@ const Login = () => {
       } else if (role === 'user' && status ==='active') {
         nav('/user');
       }
-      else if (status ==='waiting'){
+       if (status ==='waiting'){
         setShowPendingPage(true)
       }
 

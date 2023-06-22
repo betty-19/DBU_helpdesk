@@ -44,6 +44,8 @@ app.post('/ticket', async (req, res) => {
     res.status(200).json({ message: 'Ticket created successfully' });
   });
 });
+
+
 app.get('/api/faq', async (req, res) => {
   try {
     const { category } = req.query;
@@ -66,25 +68,27 @@ app.get('/api/faq', async (req, res) => {
 
  
 
-// 5
 app.get('/api/getTickets', (req, res) => {
   const department = req.query.department;
-
-  // this query will fetch all information from ticket table. 
-  const query = 'SELECT * FROM ticket  WHERE  category = ?';
-  connection.query(query, department, async (error, result) => {
-        if (error) { 
-          console.log(error);
-          res.status(500).json({ error: 'An error occurred while finding ticket iformation.' });
-          return;
-        }else {
-          // console.log(result)
-          if (result.length>0){ // means there is data that fulfied the requirement.
-            res.status(200).json(result);
-          } else {
-          res.status(500).json({ message: 'no data under this department.' });
-          }
-  }});
+  try {
+    const sql = `
+    SELECT * FROM ticket2  WHERE  category = ?;
+    `;
+    connection.query(sql,department, (err, result) => {
+      if (err) {
+    
+        console.error('Error fetching data from the database:', err);
+        res.status(500).json({ error: 'An error occurred while fetching tickets' });
+        return;
+      }
+      console.log('Tickets fetched successfully');
+      res.status(200).json(result);
+      console.log(result);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching tickets' });
+  }
 });
 
 // 6
@@ -112,14 +116,18 @@ app.get('/api/getTickets', (req, res) => {
 //   }});
 // });
 app.get('/api/getTicketByCreaterId', async (req, res) => {
+  const createdBy = req.query.createdBy;
   try {
     const sql = `
-      SELECT t.*, r.firstName, r.officeBlock
-      FROM ticket2 AS t
-      JOIN register AS r ON t.createdBy = r.id
+    SELECT t.*, r.firstName, r.officeBlock
+    FROM ticket2 AS t
+    JOIN register AS r ON t.createdBy = r.employeeId
+    WHERE r.employeeId = ?;
+    
     `;
-    connection.query(sql, (err, result) => {
+    connection.query(sql,createdBy, (err, result) => {
       if (err) {
+        console.log("error");
         console.error('Error fetching data from the database:', err);
         res.status(500).json({ error: 'An error occurred while fetching tickets' });
         return;
@@ -178,63 +186,29 @@ app.get('/api/getAllAgentInfo', (req, res) => {
 
 // 9   store those value in the openTicket table
 
-app.post('/api/storeOpenTickets', async (req, res) => {
+app.post('/api/assignTickets', async (req, res) => {
   
-  const { creatorName, creatorDepartment, creatorBlock, title, description, priority , ticketId, agentId} = req.body;
-  
-  console.log(creatorName, creatorDepartment, creatorBlock, title, description, priority , ticketId, agentId)
+  const { ticketId, agentId} = req.body;
+  const status = "onprogress"
+  console.log(ticketId, agentId)
   // here you can also add validation, whether those inputs are null or not, vallid datatype or not
 
   // check whether the ticket id is valid or not.
-  const ticketQuery = 'SELECT * FROM ticket WHERE id = ?';
-  connection.query(ticketQuery, ticketId, async (error, ticketResult) => {
+  const ticketQuery = 'UPDATE `ticket2` SET `assignedTo`=?,`status`=? WHERE id = ?';
+  const values = [
+    agentId,
+    status,
+    ticketId
+  ]
+  connection.query(ticketQuery, values, async (error, ticketResult) => {
         if (error) { 
           res.status(500).json({ error: 'An error occurred while finding verifeing the ticket.' });
           return;
         }else {
-          // console.log(ticketResult)
-          if (ticketResult.length>0){ // if the ticket id is valid
-
-              // check whether the agent id is valid or not.
-            const agentQuery = 'SELECT * FROM account WHERE id = ?';
-            connection.query(agentQuery, agentId, async (error, agentResult) => {
-                  if (error) { 
-                    res.status(500).json({ error: 'An error occurred while finding verifeing the ticket.' });
-                    return;
-                  }else {
-                    // console.log(agentResult)
-                    if (agentResult.length>0){ // if the ticket id is valid 
-
-                      // here we have to check the uniqueness of the data.   
-
-
-                    // Insert into openTicket table.
-                    const query = 'INSERT INTO open_ticket( creatorName, creatorDepartment, creatorBlock, title, description, priority , ticketId, agentId) VALUES(?,?,?,?,?,?,?,?)';
-                    
-                    const values = [ creatorName, creatorDepartment, creatorBlock, title, description, priority , ticketId, agentId ]
-                    
-                    connection.query(query, values, (err, result) => {
-                        if (err) {
-                          console.error('Error inserting data into the open_ticket:', err);
-                          res.status(500).json({ error: 'An error occurred while registering.' });
-                          return;
-                        }
-                          console.log("you secceed with registering the open ticket.")
-                          return res.status(200).json({ message: 'registration of open ticket, successful' });                   
-                      }); 
-                  } else {
-
-                    return res.status(404).json({ message: `No registered agent data at account table, with id ${agentId}` })
-                  } 
-          }});
-
-        } else {
-          return res.status(404).json({ message: `No registered ticket with id ${ticketId}` })
-        }       
-    }//  end of else
-  }); 
+          res.status(200).json({success:true})
+        }           
 });
-
+});
 
 
 

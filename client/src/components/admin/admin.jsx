@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
-import './admin.css'
+import '../../assets/css/admin.css'
 import NewUsers from "./newUser.jsx";
-import UserList from "./userList.jsx";
-import Department from "./department.jsx"
+import UserList from "../userList.jsx";
+import Department from "../head/department.jsx"
 
 function Admin() {
   const [showNewUsers, setShowNewUsers] = useState(false);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
-import './admin.css'
+import '../../assets/css/admin.css'
 import Ticket from "./createTicket.jsx";
 import DisplayFaq from "./displayFaq";
 import ViewTickets from "./viewTickets"

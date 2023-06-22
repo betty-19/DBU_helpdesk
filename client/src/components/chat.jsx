@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Chat = ({ ticketId, user, agent }) => {
+const Chat = ({ ticketId, agent,user  }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 

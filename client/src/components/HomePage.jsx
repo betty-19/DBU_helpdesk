@@ -2,17 +2,10 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import img1 from "../images/img3.jpg";
-import img2 from "../images/img2.jpg";
-import './HomePage.css'; // Create a separate CSS file for HomePage styles
+import '../assets/css/HomePage.css'; // Create a separate CSS file for HomePage styles
 
 const HomePage = () => {
   const [showLoginOptions, setShowLoginOptions] = useState(false);
-  const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    setShowLoginOptions(!showLoginOptions);
-  };
-
   return (
     <div className="home-page">
       {/* Header */}
@@ -24,23 +17,6 @@ const HomePage = () => {
           <div className="header-links">
             <div className="d-flex">
               <Link to="/" className="text-light mx-2">Home</Link>
-              {/* <div className={`dropdown ${showLoginOptions ? 'show' : ''}`}>
-                <span
-                  className="text-light mx-2 dropdown-toggle"
-                  onClick={handleLoginClick}
-                  role="button"
-                  aria-haspopup="true"
-                  aria-expanded={showLoginOptions ? "true" : "false"}
-                >
-                  Login
-                </span>
-                <div className={`dropdown-menu ${showLoginOptions ? 'show' : ''}`}>
-                  <Link to={{ pathname: "/login", state: { role: "admin" } }} className="dropdown-item">Admin</Link>
-                  <Link to={{ pathname: "/login", state: { role: "manager" } }} className="dropdown-item">Manager</Link>
-                  <Link to={{ pathname: "/login", state: { role: "user" } }} className="dropdown-item">User</Link>
-                  <Link to={{ pathname: "/login", state: { role: "pending" } }} className="dropdown-item">Pending</Link>
-                </div>
-              </div> */}
               <Link to="/login" className="text-light mx-2">Login</Link>
               <Link to="/signup" className="text-light mx-2">Signup</Link>
             </div>
