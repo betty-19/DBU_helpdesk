@@ -13,7 +13,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './components/store';
 import DisplayFaq from './components/user/displayFaq';
-import Department from './components/head/department';
+import Department from './components/admin/department';
 import ViewTickets from './components/user/viewTickets';
 import Agent from './components/agent/agent';
 import Chat from './components/chat'

@@ -78,9 +78,45 @@ const viewAssignedTickets = (req, res, next) => {
       res.status(200).json(result);
     });
   }
+  const totalAssignedTickets = (req, res, next) =>{
+    empId = req.query.assignedId;
+    console.log("ticketId");
+     const sql = `SELECT COUNT(*) AS totalUsers FROM ticket2 WHERE assignedTo = ?`
+     connection.query(sql, empId, (error, results) => {
+      if (error) {
+        console.error('Error fetching user information:', error);
+        res.status(500).send('Internal server error');
+      } else {
+        const totalUsers = results[0].totalUsers;
+        res.status(200).send(totalUsers.toString());
+        console.log("--");
+        console.log(totalUsers);
+      }
+    });
+  }
+
+  const totalClosedTickets = (req, res, next) =>{
+    empId = req.query.assignedId;
+    console.log("ticketId");
+    const sql = `SELECT COUNT(*) AS totalUsers FROM ticket2 WHERE assignedTo = ? AND status = "closed"`
+    connection.query(sql,empId, (error, results) => {
+      if (error) {
+        console.error('Error fetching user information:', error);
+        res.status(500).send('Internal server error');
+      } else {
+        const totalUsers = results[0].totalUsers;
+        res.status(200).send(totalUsers.toString());
+        console.log("--");
+        console.log(totalUsers);
+      }
+    });
+  }
+
 
   module.exports = {
     viewAssignedTickets,
     completeTicket,
-    viewClosedTickets
+    viewClosedTickets,
+    totalClosedTickets,
+    totalAssignedTickets
   };

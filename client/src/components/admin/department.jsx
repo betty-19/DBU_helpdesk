@@ -16,7 +16,7 @@ function Department() {
 
   const fetchDepartments = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/departments'); // Replace with your API endpoint for fetching departments
+      const response = await fetch('http://localhost:4000/api/getDepartments'); // Replace with your API endpoint for fetching departments
       const data = await response.json();
       setDepartments(data);
     } catch (error) {
@@ -39,7 +39,7 @@ function Department() {
 
   const deleteDepartment = async (departmentId) => {
     try {
-      await fetch(`http://localhost:4000/api/departments/${departmentId}`, {
+      await fetch(`http://localhost:4000/api/deleteDepartments/${departmentId}`, {
         method: 'DELETE', // Replace with the appropriate HTTP method for deleting a department
       });
       // Remove the deleted department from the local state
@@ -99,14 +99,17 @@ function Department() {
   };
 
   const handleAddConfirmation = async () => {
+    const category ={
+      category:addValue
+    } 
     try {
       // Add the new department to the department table
-      await fetch('http://localhost:4000/api/departments', {
+      await fetch('http://localhost:4000/api/registerDepartmentsInfo', {
         method: 'POST', // Replace with the appropriate HTTP method for adding a department
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title: addValue }),
+        body: JSON.stringify({ category }),
       });
 
       // Fetch the updated list of departments
@@ -129,7 +132,7 @@ function Department() {
   return (
     <div>
       <h2>Manage Departments</h2>
-      <button onClick={handleAdd}>Add</button>
+      <button className='btn btn-secondary' onClick={handleAdd}>Add</button>
       <table className='table'>
         <thead>
           <tr>
@@ -140,10 +143,10 @@ function Department() {
         <tbody>
           {departments.map((department) => (
             <tr key={department.id}>
-              <td>{department.title}</td>
-              <td>
-                <button onClick={() => handleDelete(department.id)}>Delete</button>
-                <button onClick={() => handleRename(department.id)}>Rename</button>
+              <td>{department.category}</td>
+              <td className='text-end'>
+                <button className='btn btn-danger me-1' onClick={() => handleDelete(department.id)}>Delete</button>
+                <button className='btn btn-success' onClick={() => handleRename(department.id)}>Rename</button>
               </td>
             </tr>
           ))}

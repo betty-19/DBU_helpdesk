@@ -122,13 +122,13 @@ const ViewTicket = () => {
                   />
                 ) : (
                   <>
-                    <button
+                    <button className='btn btn-primary'
                       onClick={() => chat(ticket.id)}
                       disabled={isChatDisabled(ticket.assignedTo, ticket.status)}
                     >
                       Chat
                     </button>
-                    <button onClick={() => view(ticket.id)}>View</button>
+                    {/* <button onClick={() => view(ticket.id)}>View</button> */}
                   </>
                 )}
               </td>

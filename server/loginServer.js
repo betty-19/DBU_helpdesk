@@ -59,5 +59,5 @@ app.post('/api/login', (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port my ${port}`);
+  console.log(`Login is running on port my ${port}`);
 });

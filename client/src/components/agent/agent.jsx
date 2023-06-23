@@ -4,6 +4,7 @@ import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
 import AssignedTickets from "./assignedTickets";
 import ClosedTickets from "./closedTickets";
+import Dashboard from "./agentDashboard";
 import '../../assets/css/admin.css'
 import { useSelector } from 'react-redux';
 
@@ -12,14 +13,19 @@ function Agent() {
 
 const[showAssignedTickets, setShowAssignedTickets]=useState(false)
 const[showClosedTickets, setShowClosedTickets]=useState(false)
-
-const user = useSelector(state => state.user);
+const[showDashboard, setShowDashboard]=useState(false)
+const user = useSelector(state => state.user)
 
 const handleLinkClick = () => {
   setShowAssignedTickets(false)
   setShowClosedTickets(false)
+  setShowDashboard(false)
 };
-
+const handleDashboard = () => {
+  setShowDashboard(true)
+  setShowAssignedTickets(false)
+  setShowClosedTickets(false)
+};
   return (
     <div className='container-fluid'>
       <div className='row'>
@@ -31,12 +37,12 @@ const handleLinkClick = () => {
             </a>
             <hr className='text-white d-none d-sm-block'></hr>
             <ul class='nav nav-pills flex-column mt-2 mt-sm-0' id='parentM'>
-              {/* <li class='nav-item my-1 py-2 py-sm-0'>
-                <a href="#" class="nav-link text-white text-center text-sm-start" aria-current="page" onClick={()=>{setShowAssignedTickets(true)}}>
+              <li class='nav-item my-1 py-2 py-sm-0'>
+                <a href="#" class="nav-link text-white text-center text-sm-start" aria-current="page" onClick={handleDashboard}>
                   <i className='bi bi-speedometer2'></i>
-                  <span className='ms-2 d-none d-sm-inline'>Assigned Ticket</span>
+                  <span className='ms-2 d-none d-sm-inline'>Dashboard</span>
                 </a>
-              </li> */}
+              </li>
               <li class='nav-item my-1 py-2 py-sm-0'>
                 <a href="#submenu" class="nav-link text-white" data-bs-toggle="collapse" aria-current="page" onClick={handleLinkClick}>
                   <i className='bi bi-grid'></i>
@@ -86,6 +92,7 @@ const handleLinkClick = () => {
         <div className='col-sm-10'>
       {showAssignedTickets && <AssignedTickets/>}
       {showClosedTickets && <ClosedTickets/>}
+      {showDashboard && <Dashboard />}
         </div>
       </div>
     </div>

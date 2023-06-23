@@ -30,21 +30,9 @@ connection.connect((err) => {
 // Handle POST requests to '/signup'
 app.post('/signup', async (req, res) => {
   
-  
   // Get the signup data from the request body
   const { firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor ,  employeeId} = req.body;
-  
-  // here you can also add validation, whether those inputs are null or not, vallid datatype or not
 
-  // // this query checks as this guy is an employee or not. You may remove it, if you want to, not to bee checked from the dbu database.
-  // const query = 'SELECT * FROM Employees WHERE employeeId = ?';
-  // Dbu_employees_db_con.query(query, employeeId, async (error, employee) => {
-  //       if (error) { 
-  //         res.status(500).json({ error: 'An error occurred while finding verifeing the employee.' });
-  //         return;
-  //       }else {
-  //         // console.log(employee)
-  //         if (employee.length>0){ // if he is an employee 
 
             const username = employeeId + '@helpdesk.dbu'; //= employeeId; // I take employee id as user  name you can change it.
 
@@ -82,18 +70,11 @@ app.post('/signup', async (req, res) => {
                     return;
                   }
                   
-                  // console.log("inserted Id: ",result.insertId)
+               
                   const accountId = parseInt(result.insertId)  
-                  // const isApproved = 'no';
-                  // const newAccount = 'yes';
-                  // const state = 'pending';
                   // const registerValues = [firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, isApproved, newAccount, state,  employeeId, accountId];
                   const registerValues = [firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor , employeeId, accountId];
-                  
-                  // console.log(firstName, lastName, officeBlock, phoneNumber, favoriteNumber, birthDate, favoriteColor, isApproved, newAccount, state,  employeeId, accountId)
-                  // Insert into register table
-                  // const registerQuery = 'INSERT INTO register (firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, approve, new, state, employeeId, accountId) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
-                  const registerQuery = 'INSERT INTO register (firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, employeeId, accountId) VALUES (?,?,?,?,?,?,?,?,?,?)';
+                   const registerQuery = 'INSERT INTO register (firstName, lastName, officeBlock, officeNumber, phoneNumber, favoriteNumber, birthDate, favoriteColor, employeeId, accountId) VALUES (?,?,?,?,?,?,?,?,?,?)';
                   connection.query(registerQuery, registerValues, (err, result) => {
                     if (err) {
                       console.error('Error while inserting: ', err);
@@ -134,5 +115,5 @@ app.put('/api/register/:userId', async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Index or signUp listening on port ${port}`);
 });

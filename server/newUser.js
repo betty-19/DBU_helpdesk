@@ -25,8 +25,8 @@ connection.connect((err) => {
 });
 
 // Define a route to fetch the new users
-app.get('/api/newuser', (req, res) => {
-  const query = 'SELECT firstName, employeeId,lastName,officeBlock FROM register WHERE new = "yes"';
+app.get('/api/newuserr', (req, res) => {
+  const query = 'SELECT firstName, employeeId,state FROM register WHERE new = "no"';
 
   // Execute the query
   connection.query(query, (error, results) => {
@@ -36,14 +36,33 @@ app.get('/api/newuser', (req, res) => {
     } else {
       const users = results.map((row) => ({
         firstName: row.firstName,
-        lastName: row.lastName,
-        officeBlock:row.officeBlock,
         employeeId: row.employeeId,
+        state: row.state,
       }));
       res.json({ users });
     }
   });
 });
+//FETCH DEPARTMENT
+app.get('/api/departments', (req, res) => {
+  const query = 'SELECT * FROM department';
+
+  // Execute the query
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching user information: ', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+
+
+
+
+
 // employee
 app.get('/api/employee', (req, res) => {
   const query = 'SELECT * FROM employee';
@@ -100,24 +119,102 @@ app.get('/api/employee2/:id', (req, res) => {
 // it change the value of the status column from pending to Accept
 app.put('/api/update/:empId', (req, res) => {
   const userId = req.params.empId;
-  const { status, userName, password, role, department, approve, isNew } = req.body;
+  // to account table
+   const status= "active"
+   const {role, department} = req.body;
+   // to register table
+   const approve ="yes"
+   const isNew = "no"
+   const state = "Accept"
 
-  const query = "UPDATE `register` SET `status` = ?, `userName` = ?, `password` = ?, `role` = ?, `department` = ?, `approve` = ?, `new` = ? WHERE `empId` = ?";
 
-  connection.query(query, [status, userName, password, role, department, approve, isNew , userId], (error, results) => {
+  const accQuery = "UPDATE `account` SET `status` = ?, `role` = ?, `department` = ?  WHERE `employeeId` = ?";
+  const accAalue = [status, role , department,userId]
+  console.log(accAalue);
+  connection.query(accQuery, accAalue, (error, results) => {
     if (error) {
       console.error('Error updating user:', error);
       res.status(500).json({ error: 'Internal server error' });
     } else if (results.affectedRows === 0) {
       res.status(404).json({ error: 'User not found or no changes were made' });
     } else {
+      const regQuery = "UPDATE `register` SET `approve` = ?, `new` = ?, `state` = ?  WHERE `employeeId` = ?";
+      const regValue = [approve, isNew , state,userId]
+    
+      connection.query(regQuery, regValue, (error, results) => {
+        if (error) {
+          console.error('Error updating user:', error);
+          res.status(500).json({ error: 'Internal server error' });
+        } else if (results.affectedRows === 0) {
+          res.status(404).json({ error: 'User not found or no changes were made' });
+        } 
+      });
       res.json({ message: 'User updated successfully' });
+    }
+  });
+});//to activate
+
+app.put('/api/activate', (req, res) => {
+  const userId = req.query.userId;
+   const status = req.query.newStatus;
+  
+  const query = "UPDATE `account` SET `status` = ?  WHERE `employeeId` = ?";
+  const value = [status,userId]
+  console.log(value);
+  connection.query(query, value, (error, results) => {
+    if (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else if (results.affectedRows === 0) {
+      res.status(404).json({ error: 'User not found or no changes were made' });
+    } else {
+      res.status(200).json(results);
     }
   });
 });
 
 
 
+
+
+
+//regect
+
+app.put('/api/reject/:empId', (req, res) => {
+  const userId = req.params.empId;
+  // to account table
+   const status= "Inactive"
+   const {role, department} = req.body;
+   // to register table
+   const isNew = "no"
+   const state = "Reject"
+  
+
+  const accQuery = "UPDATE `account` SET `status` = ? WHERE `employeeId` = ?";
+  const accAalue = [status,userId]
+
+  connection.query(accQuery, accAalue, (error, results) => {
+    if (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    } else if (results.affectedRows === 0) {
+      res.status(404).json({ error: 'User not found or no changes were made' });
+    } else {
+      const regQuery = "UPDATE `register` SET `new` = ?, `state` = ?  WHERE `employeeId` = ?";
+      const regValue = [isNew, state,userId]
+    
+      connection.query(regQuery, regValue, (error, results) => {
+        if (error) {
+          console.error('Error updating user:', error);
+          res.status(500).json({ error: 'Internal server error' });
+        } else if (results.affectedRows === 0) {
+          res.status(404).json({ error: 'User not found or no changes were made' });
+        } 
+      });
+      res.json({ message: 'User updated successfully' });
+    }
+  });
+});
 
 //end of table value
 app.get('/api/register', (req, res) => {
@@ -147,5 +244,5 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log('Server is running on port 3003');
+  console.log('NewUser is running on port 3003');
 });

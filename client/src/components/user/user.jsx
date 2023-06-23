@@ -4,11 +4,13 @@ import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
 import '../../assets/css/admin.css'
 import Ticket from "./createTicket.jsx";
+import FixedTickets from "./fixedTickets"
 import DisplayFaq from "./displayFaq";
 import ViewTickets from "./viewTickets"
 import { useSelector } from 'react-redux';
 function User() {
   const [showCreateTicket, setShowCreateTicket] = useState(false);
+  const [showFixedTickets, setShowFixedTickets] = useState(false);
   const [displayFaq, setDisplayFaq] = useState(false);
   const [showViewTickets , setShowViewTickets] = useState(false);
   const user = useSelector(state => state.user);
@@ -17,15 +19,19 @@ function User() {
     setShowCreateTicket(true);
     setDisplayFaq(false)
     setShowViewTickets(false)
+    setShowFixedTickets(false)
+
   };
 
   const handleLinkClick = () => {
     setShowCreateTicket(false);
   };
   const handleFaqClick = () =>{
-    setDisplayFaq(true)
+    setDisplayFaq(true);
     setShowCreateTicket(false);
     setShowViewTickets(false)
+    setShowFixedTickets(false)
+
   }
 
   // const handleEmployeeClick = () => {
@@ -67,8 +73,19 @@ function User() {
               setShowViewTickets(true);
               setDisplayFaq(false)
               setShowCreateTicket(false)
+              setShowFixedTickets(false)
             }}>
-                      <span className="d-none d-sm-inline">Created Ticket</span>
+                      <span className="d-none d-sm-inline">Created Tickets</span>
+                    </a>
+                  </li>
+                  <li class="nav-item ">
+                    <a class="nav-link text-white " href="#" onClick={() => {
+              setShowFixedTickets(true);
+              setDisplayFaq(false)
+              setShowCreateTicket(false)
+              setShowViewTickets(false)
+            }}>
+                      <span className="d-none d-sm-inline">Fixed Tickets</span>
                     </a>
                   </li>
                 </ul>
@@ -97,6 +114,7 @@ function User() {
           {showCreateTicket && <Ticket />}
           {displayFaq && <DisplayFaq/>}
           {showViewTickets && <ViewTickets/>}
+          {showFixedTickets && <FixedTickets/>}
 
           {/* Conditional rendering of UserList component
           {showEmployeeList && <UserList />} */}

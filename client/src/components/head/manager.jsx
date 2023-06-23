@@ -4,6 +4,7 @@ import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/collapse';
 import '../../assets/css/admin.css';
 import OpenTickets from "./openTickets";
+import Dashboard from "./headDashboard";
 //import CreateTicket from './createTicket'
 import { useSelector } from 'react-redux';
 import ManageFaq from './manageFaq'
@@ -11,6 +12,7 @@ import ViewAssignedTickets from "./viewAssignedTickets";
 
 function Manager() {
   const [showOpenTicket, setShowOpenTicket] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
   const [showFAQ, setShowFAQ] = useState(false);
   const user = useSelector(state => state.user);
   const [viewAssignedTicket, setViewAssignedTicket] = useState(false);
@@ -19,7 +21,14 @@ function Manager() {
   const textRef = useRef(null);
   const [message, setMessage] = useState('');
   
+  const handleLinkClick = () => {
+    setShowDashboard(true)
+    setViewAssignedTicket(false)
+    setShowOpenTicket(false);
+    setShowFAQ(false);
+  };
   const handleOpenTicket = () => {
+    setShowDashboard(false)
     setViewAssignedTicket(false)
     console.log("New Ticket clicked");
     setShowOpenTicket(true);
@@ -28,6 +37,7 @@ function Manager() {
 
   const viewAssignedTickets = () => {
     console.log("New Ticket clicked");
+    setShowDashboard(false)
     setViewAssignedTicket(true)
     setShowOpenTicket(false);
     setShowFAQ(false); // Hide the FAQ page
@@ -35,6 +45,7 @@ function Manager() {
 
 
   const handleFAQ = () => {
+    setShowDashboard(false)
     setShowOpenTicket(false);
     setViewAssignedTicket(false)
     console.log("FAQ clicked");
@@ -128,7 +139,7 @@ function Manager() {
             <hr className="text-white d-none d-sm-block" />
             <ul className="nav nav-pills flex-column mt-2 mt-sm-0" id="parentM">
               <li className="nav-item my-1 py-2 py-sm-0">
-                <a href="#" className="nav-link text-white text-center text-sm-start" aria-current="page">
+                <a href="#" className="nav-link text-white text-center text-sm-start" aria-current="page" onClick={handleLinkClick}>
                   <i className="bi bi-speedometer2" />
                   <span className="ms-2 d-none d-sm-inline">Dashboard</span>
                 </a>
@@ -181,6 +192,7 @@ function Manager() {
         {showOpenTicket && <OpenTickets />}
         {showFAQ && <ManageFaq/>}
         {viewAssignedTicket && <ViewAssignedTickets/>}
+        {showDashboard && <Dashboard />}
         </div>
      
 

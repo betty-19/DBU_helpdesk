@@ -83,15 +83,14 @@ app.get('/api/getFaq', (req, res) => {
 
 // register departments.
 app.post('/api/registerDepartmentsInfo', (req, res) => {
-  const { category } = req.body;
-   
-  const values = [category];
+  const  {category}  = req.body.category;
+   console.log(category);
 if (!category){
   res.status(500).json({ message: 'please provide input.'});
   return;
 }
-  const query = 'INSERT INTO department ( category) VALUES (?)';
-  connection.query(query, values, (error, results) => {
+  const query = 'INSERT INTO `department`(`category`) VALUES (?)';
+  connection.query(query, category, (error, results) => {
     if (error) {
       console.error('Error with registering department info: ', error);
       res.status(500).json({ error: 'Internal server error' });
@@ -124,6 +123,20 @@ app.get('/api/getDepartments', (req, res) => {
   });
 });
 
+// Delete a department
+app.delete('/api/deleteDepartments/:departmentId', (req, res) => {
+  const departmentId = parseInt(req.params.departmentId);
+
+  const departmentIndex = departments.findIndex((department) => department.id === departmentId);
+
+  if (departmentIndex !== -1) {
+    departments.splice(departmentIndex, 1);
+    res.status(200).send('Department deleted successfully');
+  } else {
+    res.status(404).send('Department not found');
+  }
+});
+
 // Define a route for the root URL
 app.get('/', (req, res) => {
   res.send('Hello, this is the root URL');
@@ -132,7 +145,7 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`category is running on port ${port}`);
 });
 app.get('/api/faqs', async (req, res) => {
   try {

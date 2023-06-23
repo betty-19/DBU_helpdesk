@@ -57,6 +57,7 @@ WHERE
 const fetchAgents = (req,res,next)=>{
   console.log("aaa");
   const department = req.query.department;
+  console.log(department);
   const status = "active"
   console.log("bbb");
   try {
@@ -84,6 +85,7 @@ const fetchAgents = (req,res,next)=>{
       }
       console.log('Tickets fetched successfully');
       res.status(200).json(result);
+      console.log(result);
     });
   } catch (error) {
     console.error(error);
@@ -183,6 +185,58 @@ const viewFaqs  = (req, res) => {
   }
 }
 
+const totalOpenTickets = (req, res)=>{
+  const query = 'SELECT COUNT(*) AS totalUsers FROM ticket2 WHERE status = "Open"';
+  
+  // Execute the query
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching user information:', error);
+      res.status(500).send('Internal server error');
+    } else {
+      const totalUsers = results[0].totalUsers;
+      res.status(200).send(totalUsers.toString());
+      console.log("--");
+      console.log(totalUsers);
+    }
+  });
+}
+
+const totalAssignedTickets = (req, res)=>{
+  const department = req.query.department;
+  const query = 'SELECT COUNT(*) AS totalUsers FROM ticket2 WHERE assignedTo != "Not Assigned" ';
+  
+  // Execute the query
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching user information:', error);
+      res.status(500).send('Internal server error');
+    } else {
+      const totalUsers = results[0].totalUsers;
+      res.status(200).send(totalUsers.toString());
+      console.log("--");
+      console.log(totalUsers);
+    }
+  });
+}
+
+const totalClosedTickets = (req, res)=>{
+  const query = 'SELECT COUNT(*) AS totalUsers FROM ticket2 WHERE status = "closed"';
+  
+  // Execute the query
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching user information:', error);
+      res.status(500).send('Internal server error');
+    } else {
+      const totalUsers = results[0].totalUsers;
+      res.status(200).send(totalUsers.toString());
+      console.log("--");
+      console.log(totalUsers);
+    }
+  });
+}
+
   module.exports = {
     openTickets,
     viewSelectedTicketInfo,
@@ -190,5 +244,8 @@ const viewFaqs  = (req, res) => {
     assignTickets,
     ViewAssignedTickets,
     addFAQ,
-    viewFaqs
+    viewFaqs,
+    totalClosedTickets,
+    totalAssignedTickets,
+    totalOpenTickets
   };

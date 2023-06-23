@@ -47,7 +47,47 @@ const createTicket = (req, res, next) => {
       res.status(500).json({ error: 'An error occurred while fetching tickets' });
     }
   }
+  const FixedTickets = (req, res,next) => {
+    const createdBy = req.query.createdBy;
+    try {
+      const sql = `
+      SELECT t.*, r.firstName, r.officeBlock
+      FROM ticket2 AS t
+      JOIN register AS r ON t.createdBy = r.employeeId
+      WHERE r.employeeId = ? AND t.status="Fixed";
+      
+      `;
+      connection.query(sql,createdBy, (err, result) => {
+        if (err) {
+          console.log("error");
+          console.error('Error fetching data from the database:', err);
+          res.status(500).json({ error: 'An error occurred while fetching tickets' });
+          return;
+        }
+        console.log('Tickets fetched successfully');
+        res.status(200).json(result);
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while fetching tickets' });
+    }
+  }
 
+  const VerifyTicket = (req,res, next) =>{
+    ticketId = req.query.selectedTicket;
+    console.log("ticketId");
+     const qq = "UPDATE `ticket2` SET `status`='Closed' WHERE id = ?";
+     connection.query(qq,ticketId, (err, result) => {
+      if (err) {
+        console.error('Error fetching data from the database:', err);
+        res.status(500).json({ error: 'An error occurred while fetching tickets' });
+        return;
+      }
+      console.log('Tickets === successfully');
+      console.log("success");
+      res.status(200).json(result);
+    });
+  }
 
   //View  FAQ
   const viewFAQ = (req, res,next) => {
@@ -73,4 +113,6 @@ const createTicket = (req, res, next) => {
     createTicket,
     ViewTickets,
     viewFAQ,
+    FixedTickets,
+    VerifyTicket
   };

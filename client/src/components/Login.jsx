@@ -48,8 +48,9 @@ const Login = () => {
       // Dispatch the LOGIN action with the user information
       
   
-      const role = user.role.toLowerCase();
+      const role = user.role;
       const status = user.status;
+    // console.log(status);
   
       // Redirect to the appropriate page based on the user's role and status
       if (status ==='waiting'){
@@ -64,9 +65,9 @@ const Login = () => {
       } else if (role === 'user' && status ==='active') {
         nav('/user');
       }
-       if (status ==='waiting'){
-        setShowPendingPage(true)
-      }
+      //  if (status ==='waiting'){
+      //   setShowPendingPage(true)
+      // }
 
       setError('you have assigned with incorrect role');
     })

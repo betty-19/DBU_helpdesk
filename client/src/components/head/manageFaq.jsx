@@ -138,7 +138,7 @@ function ManageFaq() {
                 </select>
               </div>
             </div>
-            <button type="button" className="btn btn-primary" onClick={handleSubmitFAQ}>Add</button>
+            <button type="button" className="btn btn-primary me-1" onClick={handleSubmitFAQ}>Add</button>
             <button type="button" className="btn btn-primary" onClick={() => {
               //setCancelFaq(true);
               setShowFAQ(false);
@@ -148,7 +148,7 @@ function ManageFaq() {
         </div>
       ):
       (   <>
-      <button onClick={handleAddFAQ}>Add FAQ</button>
+      <button className='btn btn-primary mb-2' onClick={handleAddFAQ}>Add FAQ</button>
          <table className='table'>
         <thead>
           <tr>
@@ -163,8 +163,8 @@ function ManageFaq() {
               <td>{faq.question}</td>
               <td>{faq.answer}</td>
               <td>
-                <button>Delete</button>
-                <button>Edit</button>
+                <button className='btn btn-danger me-2'>Delete</button>
+                <button className='btn btn-primary'>Edit</button>
               </td>
             </tr>
           ))}

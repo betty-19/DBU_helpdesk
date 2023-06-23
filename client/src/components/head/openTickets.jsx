@@ -146,7 +146,7 @@ function OpenTickets() {
               <td>{ticket.title}</td>
               <td>{ticket.status}</td>
               <td className="text-end">
-                <button onClick={() => handleViewTicket(ticket)}>View</button>
+                <button className="btn btn-primary" onClick={() => handleViewTicket(ticket)}>View</button>
               </td>
             </tr>
 

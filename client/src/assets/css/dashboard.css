@@ -1,0 +1,13 @@
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .box {
+    width: 30%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  

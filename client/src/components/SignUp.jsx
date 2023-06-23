@@ -120,8 +120,8 @@ const Signup = () => {
     }
       // Perform signup logic with form data
       console.log('Signup clicked');
-      const username = lastName;
-      const password = phoneNumber;
+      // const username = lastName;
+      // const password = phoneNumber;
       setUsername('Username: '+employeeId + '@helpdesk.dbu');
       setPassword('Password: '+'#dbu1234' + lastName);
   

@@ -2,36 +2,51 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/js/dist/dropdown'
 import 'bootstrap/js/dist/collapse'
+import { useSelector } from 'react-redux';
 import '../../assets/css/admin.css'
 import NewUsers from "./newUser.jsx";
-import UserList from "../userList.jsx";
-import Department from "../head/department.jsx"
+import UserList from "./userList.jsx";
+import Department from "./department.jsx"
+import ApprovedAccount from "./approvedAccount"
+import Dashboard from "./adminDashboard";
 
 function Admin() {
   const [showNewUsers, setShowNewUsers] = useState(false);
   const [showEmployeeList, setShowEmployeeList] = useState(false);
   const[showDepartment , setShowDepartment]= useState(false)
-
+  const[showApprovedAccount , setShowApprovedAccount]= useState(false)
+  const[showDashboard , setShowDashboard]= useState(false)
+  const user = useSelector(state => state.user);
   const handleNewClick = () => {
     setShowNewUsers(true);
     setShowEmployeeList(false);
     setShowDepartment(false)
+    setShowApprovedAccount(false)
+    setShowDashboard(false)
   };
 
   const handleLinkClick = () => {
     setShowNewUsers(false);
+    setShowDashboard(true)
+    setShowDepartment(false);
+    setShowApprovedAccount(false)
+    setShowEmployeeList(false);
   };
 
   const handleEmployeeClick = () => {
     setShowEmployeeList(true);
     setShowNewUsers(false);
-    setShowDepartment(false)
+    setShowDepartment(false);
+    setShowApprovedAccount(false)
+    setShowDashboard(false)
     
   };
   const handleDepartmentLink = () =>{
     setShowDepartment(true)
     setShowEmployeeList(false);
     setShowNewUsers(false)
+    setShowApprovedAccount(false)
+    setShowDashboard(false)
 
   }
 
@@ -41,7 +56,7 @@ function Admin() {
         <div className='col-auto col-sm-2 bg-dark d-flex flex-column justify-content-between min-vh-100'>
           <div className="mt-2">
             <a className='text-decoration-none ms-4 d-flex align-item-center text-white d-none d-sm-inline' role='button'>
-              <span className='f5-4'>Side Menu</span>
+              <span className='f5-4'> Welcome {user.username}</span>
             </a>
             <hr className='text-white d-none d-sm-block'></hr>
             <ul class='nav nav-pills flex-column mt-2 mt-sm-0' id='parentM'>
@@ -65,7 +80,8 @@ function Admin() {
                     </a>
                   </li>
                   <li class="nav-item ">
-                    <a class="nav-link text-white " href="#" onClick={handleLinkClick}>
+                    <a class="nav-link text-white " href="#" onClick={()=>{setShowApprovedAccount(true);
+                       setShowDepartment(false);setShowEmployeeList(false);setShowNewUsers(false);}}>
                       <span className="d-none d-sm-inline">approved</span>
                     </a>
                   </li>
@@ -89,7 +105,7 @@ function Admin() {
           <div class="dropdown open">
             <a class="btn border-none  dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">
-              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">Bety</span>
+              <i className="bi bi-person f5-4"></i><span className="fs-5 ms-3 d-none d-sm-inline">{user.employeeId}</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="triggerId">
               <a class="dropdown-item" href="#">Profile</a>
@@ -104,6 +120,8 @@ function Admin() {
           {/* Conditional rendering of UserList component */}
           {showEmployeeList && <UserList />}
           {showDepartment && <Department/>}
+          {showApprovedAccount && <ApprovedAccount/>}
+           {showDashboard&& <Dashboard />}
         </div>
       </div>
     </div>
